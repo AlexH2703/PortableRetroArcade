@@ -1,0 +1,44 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly SD_Tetris, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class GameBoard: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    Boolean IsGameOver 'get set' : 
+    Int32 LinesCleared 'get set' : 
+    Int32 Level 'get set' : 
+    Int32 Score 'get set' : 
+  Methods:
+    get_Score(): PrivateScope, Public, HideBySig, SpecialName
+    set_Score(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Level(): PrivateScope, Public, HideBySig, SpecialName
+    set_Level(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_LinesCleared(): PrivateScope, Public, HideBySig, SpecialName
+    set_LinesCleared(Int32): PrivateScope, Public, HideBySig, SpecialName
+    Reset(): PrivateScope, Public, HideBySig
+    CanPlacePiece(Int32, Int32, Point[]): PrivateScope, Public, HideBySig
+    get_IsGameOver(): PrivateScope, Public, HideBySig, SpecialName
+    set_IsGameOver(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig, SpecialName
+    PlacePiece(Int32, Int32, Point[], Int32): PrivateScope, Public, HideBySig
+    ClearLines(): PrivateScope, Public, HideBySig
+    Draw(Graphics): PrivateScope, Public, HideBySig
+    GetColorForBlock(Int32): PrivateScope, Public, HideBySig
+    DrawShapeGrid(Graphics, Rectangle): PrivateScope, Public, HideBySig
+    IsOccupied(Int32, Int32): PrivateScope, Public, HideBySig
+    PrintBoard(): PrivateScope, Public, HideBySig
+    Clear(): PrivateScope, Public, HideBySig
+Class TetrisForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
