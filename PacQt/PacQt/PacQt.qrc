@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/PacQt">
+        <file>pacman.png</file>
+        <file>superPellet.png</file>
+        <file>wall.png</file>
+        <file>blinky.png</file>
+        <file>clyde.png</file>
+        <file>frenzyGhost.png</file>
+        <file>inky.png</file>
+        <file>pinky.png</file>
+        <file>pellet.png</file>
+        <file>PressStart2P-Regular.ttf</file>
+    </qresource>
+</RCC>
