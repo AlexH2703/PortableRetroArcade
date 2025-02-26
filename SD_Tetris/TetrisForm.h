@@ -51,7 +51,7 @@ private:
 
     array<array<Point>^>^ heldShapeCoords;     // Coordinates for the held shape
     array<array<Point>^>^ nextShapeCoords;     // Coordinates for the next shape
-    int heldShapeType = -1;            // Shape type for the held shape
+    int heldShapeType = 0;            // Shape type for the held shape
     bool canHold = true;               // Flag to prevent multiple holds in one turn
     bool hasHeldPiece; // Flag to check if the piece has been held
     int holdShapeType; // The type of the held shape
@@ -91,12 +91,12 @@ private:
         shapeHeight = 2;
         return gcnew array<array<Point>^> {
             gcnew array<Point> { Point(0, 0), Point(-1, 0), Point(1, 0), Point(0, -1) }, // 0 degrees
-            gcnew array<Point> { Point(0, 0), Point(0, -1), Point(0, 1), Point(1, 0) }, // 90 degrees
-            gcnew array<Point> { Point(0, 0), Point(-1, 0), Point(1, 0), Point(0, 1) }, // 180 degrees
-            gcnew array<Point> { Point(0, 0), Point(0, -1), Point(0, 1), Point(-1, 0) }  // 270 degrees
+                gcnew array<Point> { Point(0, 0), Point(0, -1), Point(0, 1), Point(1, 0) }, // 90 degrees
+                gcnew array<Point> { Point(0, 0), Point(-1, 0), Point(1, 0), Point(0, 1) }, // 180 degrees
+                gcnew array<Point> { Point(0, 0), Point(0, -1), Point(0, 1), Point(-1, 0) }  // 270 degrees
         };
     }
-    
+
     array<array<Point>^>^ InitializeSquareShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 1;
@@ -106,13 +106,13 @@ private:
         SquareShape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) },
-            gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) },
-            gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) },
-            gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) }
+                gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) },
+                gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) },
+                gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1) }
 
         };
     }
-    
+
     array<array<Point>^>^ InitializeLineShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 3;
@@ -122,12 +122,12 @@ private:
         LineShape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 0), Point(0, 1), Point(0, 2), Point(0, 3) }, // 0 degrees
-            gcnew array<Point>{ Point(0, 0), Point(-1, 0), Point(-2, 0), Point(-3, 0) },  // 270 degrees
-            gcnew array<Point>{ Point(0, 0), Point(0, -1), Point(0, -2), Point(0, -3) }, // 0 degrees
-            gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 0), Point(-1, 0), Point(-2, 0), Point(-3, 0) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 0), Point(0, -1), Point(0, -2), Point(0, -3) }, // 0 degrees
+                gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0) },  // 270 degrees
         };
     }
-    
+
     array<array<Point>^>^ InitializeSShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 1;
@@ -137,13 +137,13 @@ private:
         Sshape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 1), Point(1, 0), Point(1, 1), Point(2, 0) }, // 0 degrees
-            gcnew array<Point>{ Point(1, 0), Point(1, 1), Point(2, 1), Point(2, 2) },  // 270 degrees
-            gcnew array<Point>{ Point(2, 1), Point(1, 1), Point(1, 2), Point(0, 2) }, // 0 degrees
-            gcnew array<Point>{ Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 2) },  // 270 degrees
+                gcnew array<Point>{ Point(1, 0), Point(1, 1), Point(2, 1), Point(2, 2) },  // 270 degrees
+                gcnew array<Point>{ Point(2, 1), Point(1, 1), Point(1, 2), Point(0, 2) }, // 0 degrees
+                gcnew array<Point>{ Point(0, 0), Point(0, 1), Point(1, 1), Point(1, 2) },  // 270 degrees
 
         };
     }
-    
+
     array<array<Point>^>^ InitializeZShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 1;
@@ -153,13 +153,13 @@ private:
         Zshape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1) }, // 0 degrees
-            gcnew array<Point>{ Point(1, -1), Point(1, 0), Point(0, 0), Point(0, 1) },  // 270 degrees
-            gcnew array<Point>{ Point(2, 0), Point(1, 0), Point(1, -1), Point(0, -1) }, // 0 degrees
-            gcnew array<Point>{ Point(1, 1), Point(1, 0), Point(2, 0), Point(2, -1) },  // 270 degrees
+                gcnew array<Point>{ Point(1, -1), Point(1, 0), Point(0, 0), Point(0, 1) },  // 270 degrees
+                gcnew array<Point>{ Point(2, 0), Point(1, 0), Point(1, -1), Point(0, -1) }, // 0 degrees
+                gcnew array<Point>{ Point(1, 1), Point(1, 0), Point(2, 0), Point(2, -1) },  // 270 degrees
 
         };
     }
-    
+
     array<array<Point>^>^ InitializeLShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 2;
@@ -169,13 +169,13 @@ private:
         Lshape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 0), Point(0, 1), Point(0, 2), Point(1, 2) }, // 0 degrees
-            gcnew array<Point>{ Point(0, 3), Point(2, 2), Point(0, 2), Point(1, 2) },  // 270 degrees
-            gcnew array<Point>{ Point(0, 4), Point(0, 3), Point(0, 2), Point(-1, 2) }, // 0 degrees
-            gcnew array<Point>{ Point(-2, 2), Point(-1, 2), Point(0, 2), Point(0, 1) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 3), Point(2, 2), Point(0, 2), Point(1, 2) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 4), Point(0, 3), Point(0, 2), Point(-1, 2) }, // 0 degrees
+                gcnew array<Point>{ Point(-2, 2), Point(-1, 2), Point(0, 2), Point(0, 1) },  // 270 degrees
 
         };
     }
-    
+
     array<array<Point>^>^ InitializeJShape() {
         shapePosition = Point(cols / 2, 0); // Start in the middle at the top
         downCheck = 2;
@@ -185,13 +185,13 @@ private:
         Jshape = 1;
         return gcnew array<array<Point>^> {
             gcnew array<Point>{ Point(0, 1), Point(0, 0), Point(-1, 2), Point(0, 2) }, // 0 degrees
-            gcnew array<Point>{ Point(0, 1), Point(2, 2), Point(0, 2), Point(1, 2) },  // 270 degrees
-            gcnew array<Point>{ Point(0, 4), Point(0, 3), Point(0, 2), Point(1, 2) }, // 0 degrees
-            gcnew array<Point>{ Point(-2, 2), Point(-1, 2), Point(0, 2), Point(0, 3) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 1), Point(2, 2), Point(0, 2), Point(1, 2) },  // 270 degrees
+                gcnew array<Point>{ Point(0, 4), Point(0, 3), Point(0, 2), Point(1, 2) }, // 0 degrees
+                gcnew array<Point>{ Point(-2, 2), Point(-1, 2), Point(0, 2), Point(0, 3) },  // 270 degrees
 
         };
     }
-    
+
     bool CanRotate() {
         int originalRotation = currentRotation;
         currentRotation = (currentRotation + 1) % 4; // Attempt to rotate
@@ -328,9 +328,9 @@ private:
 
     Point GetHoldPosition(int holdShape) {
         switch (holdShape) {
-        case 1: return Point(2,3);
-        case 2: return Point(1.75,1.75);
-        case 3: return Point(1.5,1);
+        case 1: return Point(2, 3);
+        case 2: return Point(1.75, 1.75);
+        case 3: return Point(1.5, 1);
         case 4: return Point(1.5, 1.5);
         case 5: return Point(1.5, 1.5);
         case 6: return Point(2, 1);
@@ -372,7 +372,7 @@ private:
 public:
     TetrisForm() {
         this->Text = "Tetris Game";
-        
+
         backgroundPath = System::IO::Path::Combine(Application::StartupPath, "Resources\\Arcade_background.jpg");
         if (System::IO::File::Exists(backgroundPath))
         {
@@ -443,7 +443,7 @@ public:
 
         // Add the overlay panel to the form
         this->Controls->Add(overlayPanel);
-        
+
         // Initialize game over label
         gameOverLabel = gcnew System::Windows::Forms::Label();
         gameOverLabel->AutoSize = true;
@@ -454,16 +454,16 @@ public:
 
         // Center the label in the overlay panel
         gameOverLabel->Location = Point((overlayPanel->Width - gameOverLabel->Width) / 35,
-            (overlayPanel->Height - 150  )
+            (overlayPanel->Height - 150)
         );
 
         gameOverLabel->Visible = true; // Set visibility true when added
         overlayPanel->Controls->Add(gameOverLabel);
-        
+
         Label^ scoreHeaderLabel = gcnew Label();
         scoreHeaderLabel->Text = "Score";
         scoreHeaderLabel->Font = gcnew System::Drawing::Font("Press Start 2P", 16, FontStyle::Bold);
-        scoreHeaderLabel->Location = System::Drawing::Point(outerPanel->Left - 340, outerPanel->Top+10);
+        scoreHeaderLabel->Location = System::Drawing::Point(outerPanel->Left - 340, outerPanel->Top + 10);
         scoreHeaderLabel->AutoSize = true;
         scoreHeaderLabel->BackColor = Color::LightGray;
         this->Controls->Add(scoreHeaderLabel);
@@ -471,7 +471,7 @@ public:
         scoreValueLabel = gcnew Label();
         scoreValueLabel->Text = "0"; // Initial score value
         scoreValueLabel->Font = gcnew System::Drawing::Font("Press Start 2P", 16);
-        scoreValueLabel->Location = System::Drawing::Point(outerPanel->Left-340, outerPanel->Top+40); // Set position
+        scoreValueLabel->Location = System::Drawing::Point(outerPanel->Left - 340, outerPanel->Top + 40); // Set position
         scoreValueLabel->AutoSize = true; // Adjust size automatically
         scoreValueLabel->BackColor = Color::LightGray;
         this->Controls->Add(scoreValueLabel);
@@ -528,11 +528,11 @@ public:
         linesValueLabel->AutoSize = true; // Adjust size automatically
         linesValueLabel->BackColor = Color::LightGray;
         this->Controls->Add(linesValueLabel);
-        
+
 
         // Add score panel to the form
         this->Controls->Add(scorePanel);
-        
+
 
         // Initialize Restart Button
         restartButton = gcnew Button();
@@ -666,7 +666,7 @@ public:
         jPicture->Image = Image::FromFile(jimagePath);
         //holdPanel->Controls->Add(jPicture);
 
-      
+
         array<array<Point>^>^ InitializeTShape();
         array<array<Point>^>^ InitializeSquareShape();
         array<array<Point>^>^ InitializeLineShape();
@@ -680,7 +680,7 @@ public:
         // Initialize variables
         hasHeldPiece = false;
         Console::Write("Initialize ");
-        holdShapeType = -1; // No piece held initially
+        holdShapeType = 0; // No piece held initially
         nextShapeType = rand->Next(1, 8); // Random next shape
         nextShapeColor = GetShapeColor(nextShapeType); // Get the next shape's color
         holdPosition = Point(200, 200); // Default position
@@ -706,14 +706,14 @@ protected:
         // Draw the pieces already placed on the game board
         gameBoard->Draw(g);
 
-        
+
     }
 
     void DrawHoldGrid(Object^ sender, PaintEventArgs^ e) {
         Graphics^ g = e->Graphics;
 
-        if (holdShapeType != -1) {
-           // DrawHoldShape(g, holdPosition, holdShapeColor);
+        if (holdShapeType != 0) {
+            // DrawHoldShape(g, holdPosition, holdShapeColor);
         }
     }
 
@@ -731,12 +731,12 @@ protected:
             );
             g->FillRectangle(brush, rect);
         }
-        
+
         delete brush; // Clean up the brush
     }
 
     void DrawHoldShape() {
-        if (holdShapeType != -1) {
+        if (holdShapeType != 0) {
             holdPanel->Controls->Clear();
 
             // Initialize the shape coordinates based on the holdShapeType
@@ -751,14 +751,14 @@ protected:
             }
 
         }
-        
+
         Console::Write("TRYING TO DRAW HOLD SHAPE");
         Console::WriteLine();
 
     }
 
     void DrawNextShape() {
-        if (nextShapeType != -1) {
+        if (nextShapeType != 0) {
             nextPanel->Controls->Clear();
             // Initialize the shape coordinates based on the nextShapeType
             switch (nextShapeType) {
@@ -884,7 +884,7 @@ protected:
         fallInterval = 1000;
         holdPanel->Controls->Clear();
         nextPanel->Controls->Clear();
-        holdShapeType = -1;
+        holdShapeType = 0;
 
         // Reset shape-related variables
         shapePosition = Point(cols / 2, 0); // Reset shape position
@@ -895,7 +895,7 @@ protected:
         boardPanel->Invalidate(); // Redraw the board
         // Ensure the form regains focus for key events
         this->Focus();
-    } 
+    }
 
 
     void OnMainMenuButtonClick(Object^ sender, EventArgs^ e) {
@@ -951,7 +951,7 @@ protected:
             gameBoard->Draw(g);
         }
 
-        if (holdShapeType != -1) {
+        if (holdShapeType != 0) {
             DrawHoldShape();
         }
         //DrawHoldAndNextShapes(g);
@@ -1027,7 +1027,7 @@ protected:
             this->Close(); // Close the form
             break;
         }
-           
+
         // Invalidate the board panel to redraw
         boardPanel->Invalidate();
         Form::OnKeyDown(e);
