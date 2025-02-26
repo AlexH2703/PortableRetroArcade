@@ -110,7 +110,7 @@ namespace PortableArcadeUI {
 			this->pictureBox1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->pictureBox1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->pictureBox1->ImageLocation = L"";
-			this->pictureBox1->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 5, Screen::PrimaryScreen->Bounds.Height / 3.7);
+			this->pictureBox1->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 5, Screen::PrimaryScreen->Bounds.Height / 3.6);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 5.5, Screen::PrimaryScreen->Bounds.Height / 4.5);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -124,7 +124,7 @@ namespace PortableArcadeUI {
 				static_cast<System::Byte>(0)));
 			this->button1->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 4.3, Screen::PrimaryScreen->Bounds.Height / 4.3);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 30);
+			this->button1->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 29);
 			this->button1->TabIndex = 4;
 			this->button1->Text = L"Tetris";
 			this->button1->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
@@ -137,7 +137,7 @@ namespace PortableArcadeUI {
 			this->pictureBoxPac->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->pictureBoxPac->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->pictureBoxPac->ImageLocation = L"";
-			this->pictureBoxPac->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 2.5, Screen::PrimaryScreen->Bounds.Height / 3.7);
+			this->pictureBoxPac->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 2.5, Screen::PrimaryScreen->Bounds.Height / 3.6);
 			this->pictureBoxPac->Name = L"pictureBoxPac";
 			this->pictureBoxPac->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 5.5, Screen::PrimaryScreen->Bounds.Height / 4.5);
 			this->pictureBoxPac->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -151,7 +151,7 @@ namespace PortableArcadeUI {
 				static_cast<System::Byte>(0)));
 			this->buttonPac->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 2.3, Screen::PrimaryScreen->Bounds.Height / 4.3);
 			this->buttonPac->Name = L"buttonPac";
-			this->buttonPac->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 30);
+			this->buttonPac->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 29);
 			this->buttonPac->TabIndex = 4;
 			this->buttonPac->Text = L"Pacman";
 			this->buttonPac->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
