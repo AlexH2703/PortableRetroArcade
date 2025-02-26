@@ -242,14 +242,14 @@ PacQt::PacQt(QWidget* parent)
     level1(),
     pacman(nullptr),
     gameStarted(false), // Track whether the game has started
-    blinky(new Blinky(scene, level1)),
-    pinky(new Pinky(scene, level1)),
-    inky(new Inky(scene, level1)),
-    clyde(new Clyde(scene, level1))
+    itemSize(this->height() / 16),
+    blinky(),
+    pinky(),
+    inky(),
+    clyde()
 {
     ui.setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
-
 
     graphicsView->setFixedSize(1216, 896); // Set fixed size of graphics view
     graphicsView->setScene(scene);
@@ -258,6 +258,11 @@ PacQt::PacQt(QWidget* parent)
 
     // Install event filter to prevent arrow key panning
     graphicsView->installEventFilter(this);
+
+    blinky = new Blinky(scene, level1, itemSize);
+    pinky = new Pinky(scene, level1, itemSize);
+    inky = new Inky(scene, level1, itemSize);
+    clyde = new Clyde(scene, level1, itemSize);
 
     // Ensure Level1 is initialized correctly
     level1 = Level1();
@@ -275,10 +280,10 @@ void PacQt::initLabels() {
     int screenHeight = this->height();
 
     // Dynamic font
-    int font1Height = screenHeight * 0.044; // 4.4% of screen height
-    int fontResumeHeight = screenHeight * 0.032;
-    int fontControlsHeight = screenHeight * 0.021;
-    int fontGameOverHeight = screenHeight * 0.067;
+    int font1Height = screenHeight * 0.08; // 8%
+    int fontResumeHeight = screenHeight * 0.06;
+    int fontControlsHeight = screenHeight * 0.04;
+    int fontGameOverHeight = screenHeight * 0.08;
 
     QFontDatabase fontDatabase;
     int fontId = fontDatabase.addApplicationFont(":/PacQt/PressStart2P-Regular.ttf");
@@ -289,8 +294,8 @@ void PacQt::initLabels() {
     scoreLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*scoreLabel->setFixedSize(300, 110);
     scoreLabel->move(150, 100);*/ // Position in the top-left corner
-    scoreLabel->setFixedSize(screenWidth * 0.15625, screenHeight * 0.10185);
-    scoreLabel->move(screenWidth * 0.078125, screenHeight * 0.0926);
+    scoreLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
+    scoreLabel->move(screenWidth * 0.08, screenHeight * 0.18);
     scoreLabel->show();
 
     levelLabel = new QLabel(this);
@@ -299,8 +304,8 @@ void PacQt::initLabels() {
     levelLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*levelLabel->setFixedSize(300, 110);
     levelLabel->move(150, 210);*/
-    levelLabel->setFixedSize(screenWidth * 0.15625, screenHeight * 0.10185);
-    levelLabel->move(screenWidth * 0.078125, screenHeight * 0.1944);
+    levelLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
+    levelLabel->move(screenWidth * 0.08, screenHeight * 0.43);
     levelLabel->show();
 
     livesLabel = new QLabel(this);
@@ -309,8 +314,8 @@ void PacQt::initLabels() {
     livesLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*livesLabel->setFixedSize(300, 110);
     livesLabel->move(150, 320);*/
-    livesLabel->setFixedSize(screenWidth * 0.15625, screenHeight * 0.10185);
-    livesLabel->move(screenWidth * 0.078125, screenHeight * 0.2963);
+    livesLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
+    livesLabel->move(screenWidth * 0.08, screenHeight * 0.68);
     livesLabel->show();
 
     resumeLabel = new QLabel(this);
@@ -319,8 +324,8 @@ void PacQt::initLabels() {
     resumeLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*resumeLabel->setFixedSize(450, 300);
     resumeLabel->move(704, 350);*/
-    resumeLabel->setFixedSize(screenWidth * 0.234375, screenHeight * 0.2778);
-    resumeLabel->move(screenWidth * 0.36667, screenHeight * 0.3241);
+    resumeLabel->setFixedSize(screenWidth * 0.7, screenHeight * 0.35);
+    resumeLabel->move(screenWidth*0.95, screenHeight);
     resumeLabel->show();
 
     controlsLabel = new QLabel(this);
@@ -342,8 +347,8 @@ void PacQt::initLabels() {
     controlsLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*controlsLabel->setFixedSize(500, 300);
     controlsLabel->move(1400, 200);*/
-    controlsLabel->setFixedSize(screenWidth * 0.2604, screenHeight * 0.2778);
-    controlsLabel->move(screenWidth * 0.7292, screenHeight * 0.1852);
+    controlsLabel->setFixedSize(screenWidth * 0.65, screenHeight * 0.7);
+    controlsLabel->move(screenWidth * 2, screenHeight * 0.18);
     controlsLabel->show();
 
     gameOverLabel = new QLabel(this);
@@ -352,17 +357,18 @@ void PacQt::initLabels() {
     gameOverLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
     /*gameOverLabel->setFixedSize(650, 110);
     gameOverLabel->move(610, 200);*/
-    gameOverLabel->setFixedSize(screenWidth * 0.3385, screenHeight * 0.10185);
-    gameOverLabel->move(screenWidth * 0.3177, screenHeight * 0.1852);
+    gameOverLabel->setFixedSize(screenWidth * 0.7, screenHeight * 0.3);
+    gameOverLabel->move(screenWidth*.95, screenHeight * 0.25);
     gameOverLabel->hide();
 }
 
 void PacQt::initPacmanLocation() {
     if (!pacman) {
         pacman = new QGraphicsPixmapItem(QPixmap(":/PacQt/pacman.png"));
-        pacman->setPos(416, 736);
+        pacman->setPos(13 * itemSize, 23 * itemSize);
         pacman->setZValue(10);
         pacman->setTransformOriginPoint(pacman->boundingRect().center());
+        pacman->setScale((itemSize) / 36);
         scene->addItem(pacman); // Ensure Pacman is added to the scene
     }
 }
@@ -372,13 +378,13 @@ QPointF& PacQt::getPacmanDirection() {
 }
 
 void PacQt::initGhostLocation() {
-    blinky->setPos(14 * 32, 11 * 32);
+    blinky->setPos(14 * itemSize, 11 * itemSize);
     blinky->setZValue(3);
-    pinky->setPos(16 * 32, 13 * 32);
+    pinky->setPos(16 * itemSize, 13 * itemSize);
     pinky->setZValue(3);
-    inky->setPos(11 * 32, 15 * 32);
+    inky->setPos(11 * itemSize, 15 * itemSize);
     inky->setZValue(3);
-    clyde->setPos(16 * 32, 15 * 32);
+    clyde->setPos(16 * itemSize, 15 * itemSize);
     clyde->setZValue(3);
     scene->addItem(blinky);
     scene->addItem(pinky);
@@ -387,7 +393,7 @@ void PacQt::initGhostLocation() {
 }
 
 void PacQt::resetPacmanLocation() {
-    pacman->setPos(416, 736);
+    pacman->setPos(13 * itemSize, 23 * itemSize);
     pacmanOldLocation = pacman->pos();
     pacmanDirection.setX(0);
     pacmanDirection.setY(0);
@@ -436,7 +442,7 @@ void PacQt::resizeEvent(QResizeEvent* event) {
     graphicsView->setFixedSize(this->size());
 
     // Calculate new width and height for the scene
-    int newWidth = this->width() / 2;
+    int newWidth = this->width() / 1.75;
     int newHeight = this->height();
 
     // Set the scene rectangle to the new dimensions
@@ -527,19 +533,19 @@ void PacQt::updateGridDisplay() {
             // Add graphical representations for other objects
             if (objectType == "pellet") {
                 QGraphicsPixmapItem* pellet = new QGraphicsPixmapItem(QPixmap(":/PacQt/pellet.png"));
-                pellet->setPos(j * 32, i * 32); // Adjust position as needed
+                pellet->setPos(j * itemSize, i * itemSize); // Adjust position as needed
                 pellet->setZValue(1);
                 scene->addItem(pellet);
             }
             else if (objectType == "superPellet") {
                 QGraphicsPixmapItem* superPellet = new QGraphicsPixmapItem(QPixmap(":/PacQt/superPellet.png"));
-                superPellet->setPos(j * 32, i * 32); // Adjust position as needed
+                superPellet->setPos(j * itemSize, i * itemSize); // Adjust position as needed
                 superPellet->setZValue(2);
                 scene->addItem(superPellet);
             }
             else if (objectType == "wall") {
                 QGraphicsPixmapItem* wall = new QGraphicsPixmapItem(QPixmap(":/PacQt/wall.png"));
-                wall->setPos(j * 32, i * 32); // Adjust position as needed
+                wall->setPos(j * itemSize, i * itemSize); // Adjust position as needed
                 wall->setZValue(0);
                 scene->addItem(wall);
             }
@@ -647,14 +653,14 @@ void PacQt::handleCollisions() {
 
     for (QGraphicsItem* item : collidingItems) {
         if (item->zValue() == 1) { // Pellets have zValue 1
-            level1.getGrid().getObject(item->y() / 32, item->x() / 32).setType("blank");
+            level1.getGrid().getObject(item->y() / itemSize, item->x() / itemSize).setType("blank");
             scene->removeItem(item); // Remove the pellet from the scene
             pelletsEaten++;
             score += 10;
             shouldLevelUp = level1.getGrid().ateAllPellets();
         }
         else if (item->zValue() == 2) {     //superPellets have zValue 2
-            level1.getGrid().getObject(item->y() / 32, item->x() / 32).setType("blank");
+            level1.getGrid().getObject(item->y() / itemSize, item->x() / itemSize).setType("blank");
             scene->removeItem(item); // Remove the pellet from the scene
             pelletsEaten++;
             score += 50;
@@ -729,12 +735,11 @@ void PacQt::handleCollisions() {
         clyde->leaveHouse();
     }
     
-
-    if (pacman->pos().y() == 448 && floor(pacman->pos().x()) == 2) {
-        pacman->setPos(27 * 32 - 2,448);
+    if (floor(pacman->pos().y()) == 14*itemSize && pacman->pos().x() == 2.0) {
+        pacman->setPos(27 * itemSize - 2, 14*itemSize);
     }
-    else if (pacman->pos().y() == 448 && floor(pacman->pos().x()) == 27 * 32 - 2) {
-        pacman->setPos(2, 448);
+    else if (floor(pacman->pos().y()) == 14*itemSize && pacman->pos().x() == 27 * itemSize - 2.0) {
+        pacman->setPos(2, 14*itemSize);
     }
 }
 
@@ -756,6 +761,9 @@ void PacQt::resetBoard() {
     clyde->setPixmap(QPixmap(":/PacQt/clyde.png"));
     ghostsEaten = 0;
     pelletsEaten = 0;
+    frenzyMode = false;
+    level1.setFrenzyTime(0);
+
 }
 
 void PacQt::updateGame() {

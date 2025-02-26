@@ -73,6 +73,7 @@ private:
     bool shouldLevelUp;
     int pelletsEaten;
     bool frenzyMode;
+    float itemSize;
 };
 
 #endif // PACQT_H

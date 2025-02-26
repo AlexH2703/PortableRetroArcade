@@ -5,7 +5,7 @@
 #include <cmath> // for std::floor
 
 
-Ghost::Ghost(const QPixmap& pixmap, const QPointF& scatterTarget, int speed, QGraphicsScene* scene, Level1& level)
+Ghost::Ghost(const QPixmap& pixmap, const QPointF& scatterTarget, int speed, QGraphicsScene* scene, Level1& level, float itemSize)
     : QGraphicsPixmapItem(pixmap),
     scatterTarget(scatterTarget),
     speed(speed),
@@ -17,20 +17,22 @@ Ghost::Ghost(const QPixmap& pixmap, const QPointF& scatterTarget, int speed, QGr
     mode = "chase";
     distanceInTunnel = 0;
     enteringHouse = false;
+    this->itemSize = itemSize;
+    this->setScale(this->itemSize / 34);
 }
 
 QPointF Ghost::getStartingPosition() {
     if (dynamic_cast<Blinky*>(this)) {
-        return QPointF(14 * 32, 11 * 32);
+        return QPointF(14 * itemSize, 11 * itemSize);
     }
     else if (dynamic_cast<Pinky*>(this)) {
-        return QPointF(16 * 32, 13 * 32);
+        return QPointF(16 * itemSize, 13 * itemSize);
     }
     else if (dynamic_cast<Inky*>(this)) {
-        return QPointF(11 * 32, 15 * 32);
+        return QPointF(11 * itemSize, 15 * itemSize);
     }
     else if (dynamic_cast<Clyde*>(this)) {
-        return QPointF(16 * 32, 15 * 32);
+        return QPointF(16 * itemSize, 15 * itemSize);
     }
     return QPointF(-1, -1);
 }
@@ -38,19 +40,19 @@ QPointF Ghost::getStartingPosition() {
 void Ghost::handleTunnel() {
     qreal y = this->pos().y();
     qreal x = this->pos().x();
-    if ((y == 448 && x > 0 && x < 5 * 32-1) || (y == 448 && x > 22 * 32 + 1 && x < 27 * 32)) {
+    if ((y == 14*itemSize && x > 0 && x < 5 * itemSize) || (y == 14*itemSize && x > 22 * itemSize && x < 27 * itemSize)) {
         this->setSpeed(1);
         this->distanceInTunnel += 2;
     }
-    else if (this->distanceInTunnel == 626) {
+    else if (this->distanceInTunnel >= 19.56*itemSize) {
         this->setSpeed(2);
         this->distanceInTunnel = 0;
     }
-    if (y == 448 && x == 2) {
-        this->setPos(27 * 32 - 2, 448);
+    if (y == 14 * itemSize && x == 2) {
+        this->setPos(27 * itemSize - 2, 14*itemSize);
     }
-    else if (y == 448 && x == 27 * 32 - 2) {
-        this->setPos(2, 448);
+    else if (y == 14 * itemSize && x == 27 * itemSize - 2) {
+        this->setPos(2, 14 * itemSize);
     }
 }
 
@@ -106,13 +108,13 @@ void Ghost::updateMovement() {
 }
 
 bool Ghost::isWallInDirection(const QPointF& pos, const QPointF& direction) {
-    QRectF ghostBoundingRect = QRectF(pos.x() + direction.x() * 1, pos.y() + direction.y() * 1, 32, 32);    //multiply by speed
+    QRectF ghostBoundingRect = QRectF(pos.x() + direction.x() * 1, pos.y() + direction.y() * 1, itemSize, itemSize);    //multiply by speed
 
     // Calculate grid-aligned positions using floor for consistent positioning
-    int top = std::floor((ghostBoundingRect.top()+0.00001) / 32);
-    int bottom = std::floor((ghostBoundingRect.bottom()-0.00000001) / 32);
-    int left = std::floor((ghostBoundingRect.left()+0.00001) / 32);
-    int right = std::floor((ghostBoundingRect.right()-0.00000001) / 32);
+    int top = std::floor((ghostBoundingRect.top()+0.00001) / itemSize);
+    int bottom = std::floor((ghostBoundingRect.bottom()-0.00000001) / itemSize);
+    int left = std::floor((ghostBoundingRect.left()+0.00001) / itemSize);
+    int right = std::floor((ghostBoundingRect.right()-0.00000001) / itemSize);
 
     bool topLeft = level1.getGrid().getObject(top, left).getType() == "wall";
     bool topRight = level1.getGrid().getObject(top, right).getType() == "wall";
@@ -174,8 +176,8 @@ void Ghost::sortDirectionsByDistance(QVector<QPointF>& directions, const QPointF
     for (int i = 0; i < sortedDirections.size(); ++i) {
         for (int j = 0; j < sortedDirections.size() - i - 1; ++j) {
             // Calculate the new position after applying the direction
-            QPointF newPos = currentPos + sortedDirections[j] * 32;
-            QPointF newPosNext = currentPos + sortedDirections[j + 1] * 32;
+            QPointF newPos = currentPos + sortedDirections[j] * itemSize;
+            QPointF newPosNext = currentPos + sortedDirections[j + 1] * itemSize;
 
             // Calculate distances to the target
             qreal distA = QLineF(newPos, target).length();
@@ -200,8 +202,8 @@ void Ghost::enterHouse() {
 }
 
 void Ghost::leaveHouse() {
-    this->setPos(14 * 32, this->pos().y() -speed/2);
-    if (this->pos() == QPointF(14 * 32, 11 * 32)) {
+    this->setPos(14 * itemSize, this->pos().y() -speed/2);
+    if (this->pos() == QPointF(14 * itemSize, 11 * itemSize)) {
         this->inHouse = false;
         this->setDirection(QPointF(-1, 0));
         this->setMode("chase");
@@ -209,16 +211,16 @@ void Ghost::leaveHouse() {
 }
 
 void Ghost::enterHouseAnimation() {
-    this->setPos(14 * 32, this->pos().y() + speed);
-    if ((floor(this->pos().x() / speed) == floor(14 * 32 / speed)) && (floor(this->pos().y() / speed) == floor(13 * 32 / speed))) {
+    this->setPos(14 * itemSize, this->pos().y() + speed);
+    if ((floor(this->pos().x() / speed) == floor(14 * itemSize / speed)) && (floor(this->pos().y() / speed) == floor(13 * itemSize / speed))) {
         this->enteringHouse = false;
         this->inHouse = true;
     }
 }
 
 // Blinky constructor
-Blinky::Blinky(QGraphicsScene* scene, Level1& level)
-    : Ghost(QPixmap(":/PacQt/blinky.png"), QPointF(27 * 32, 0), 2, scene, level) {
+Blinky::Blinky(QGraphicsScene* scene, Level1& level, float itemSize)
+    : Ghost(QPixmap(":/PacQt/blinky.png"), QPointF(27 * itemSize, 0), 2, scene, level, itemSize) {
     inHouse = false;
 }
 
@@ -232,12 +234,12 @@ void Blinky::updateMovement(const QPointF& pacmanPos) {
     }
     else if (mode == "home") {
         this->setSpeed(6);
-        if ((floor(this->pos().x() / speed) == floor(14*32 / speed)) && (floor(this->pos().y() / speed) == floor(11 * 32 / speed)) || this->enteringHouse) {
+        if ((floor(this->pos().x() / speed) == floor(14*itemSize / speed)) && (floor(this->pos().y() / speed) == floor(11 * itemSize / speed)) || this->enteringHouse) {
             this->enteringHouse = true;
             this->enterHouseAnimation();
         }
         else if (!this->isInHouse()) {
-            this->setTarget(QPointF(14 * 32, 11 * 32));
+            this->setTarget(QPointF(14 * itemSize, 11 * itemSize));
         }
     }
     if (!this->enteringHouse) {
@@ -246,26 +248,26 @@ void Blinky::updateMovement(const QPointF& pacmanPos) {
 }
 
 // Pinky constructor
-Pinky::Pinky(QGraphicsScene* scene, Level1& level)
-    : Ghost(QPixmap(":/PacQt/pinky.png"), QPointF(0, 0), 2, scene, level) {
+Pinky::Pinky(QGraphicsScene* scene, Level1& level, float itemSize)
+    : Ghost(QPixmap(":/PacQt/pinky.png"), QPointF(0, 0), 2, scene, level, itemSize) {
     inHouse = true;
 }
 
 void Pinky::updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirection) {
     if (mode == "chase") {
-         this->setTarget(pacmanPos + pacmanDirection * 4 * 32);
+         this->setTarget(pacmanPos + pacmanDirection * 4 * itemSize);
     }
     else if (mode == "scatter") {
         this->setTarget(scatterTarget);
     }
     else if (mode == "home") {
         this->setSpeed(6);
-        if ((floor(this->pos().x() / speed) == floor(14 * 32 / speed)) && (floor(this->pos().y() / speed) == floor(11 * 32 / speed)) || this->enteringHouse) {
+        if ((floor(this->pos().x() / speed) == floor(14 * itemSize / speed)) && (floor(this->pos().y() / speed) == floor(11 * itemSize / speed)) || this->enteringHouse) {
             this->enteringHouse = true;
             this->enterHouseAnimation();
         }
         else if (!this->isInHouse()) {
-            this->setTarget(QPointF(14 * 32, 11 * 32));
+            this->setTarget(QPointF(14 * itemSize, 11 * itemSize));
         }
     }
     if (!this->enteringHouse) {
@@ -274,14 +276,14 @@ void Pinky::updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirect
 }
 
 
-Inky::Inky(QGraphicsScene* scene, Level1& level)
-    : Ghost(QPixmap(":/PacQt/inky.png"), QPointF(27 * 32, 31*32), 2, scene, level) {
+Inky::Inky(QGraphicsScene* scene, Level1& level, float itemSize)
+    : Ghost(QPixmap(":/PacQt/inky.png"), QPointF(27 * itemSize, 31*itemSize), 2, scene, level, itemSize) {
     inHouse = true;
 }
 
 void Inky::updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirection, const QPointF& blinkyPos) {
     if (mode == "chase") {
-        QPointF pacmanOffset = pacmanPos + pacmanDirection * 2 * 32;
+        QPointF pacmanOffset = pacmanPos + pacmanDirection * 2 * itemSize;
         QLineF inkyVector = QLineF(blinkyPos, pacmanOffset);
         inkyVector.setLength(inkyVector.length() * 2);
         QPointF inkyTarget = inkyVector.p2();
@@ -292,12 +294,12 @@ void Inky::updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirecti
     }
     else if (mode == "home") {
         this->setSpeed(6);
-        if ((floor(this->pos().x() / speed) == floor(14 * 32 / speed)) && (floor(this->pos().y() / speed) == floor(11 * 32 / speed)) || this->enteringHouse) {
+        if ((floor(this->pos().x() / speed) == floor(14 * itemSize / speed)) && (floor(this->pos().y() / speed) == floor(11 * itemSize / speed)) || this->enteringHouse) {
             this->enteringHouse = true;
             this->enterHouseAnimation();
         }
         else if (!this->isInHouse()) {
-            this->setTarget(QPointF(14 * 32, 11 * 32));
+            this->setTarget(QPointF(14 * itemSize, 11 * itemSize));
         }
     }
     if (!this->enteringHouse) {
@@ -305,15 +307,15 @@ void Inky::updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirecti
     }
 }
 
-Clyde::Clyde(QGraphicsScene* scene, Level1& level)
-    : Ghost(QPixmap(":/PacQt/clyde.png"), QPointF(0, 31*32), 2, scene, level) {
+Clyde::Clyde(QGraphicsScene* scene, Level1& level, float itemSize)
+    : Ghost(QPixmap(":/PacQt/clyde.png"), QPointF(0, 31*itemSize), 2, scene, level, itemSize) {
     inHouse = true;
 }
 
 void Clyde::updateMovement(const QPointF& pacmanPos) {
     if (mode == "chase") {
         qreal distanceToPacman = QLineF(this->pos(), pacmanPos).length();
-        if (distanceToPacman < 8 * 32) {
+        if (distanceToPacman < 8 * itemSize) {
             this->setTarget(scatterTarget);
         }
         else {
@@ -325,12 +327,12 @@ void Clyde::updateMovement(const QPointF& pacmanPos) {
     }
     else if (mode == "home") {
         this->setSpeed(6);
-        if ((floor(this->pos().x() / speed) == floor(14 * 32 / speed)) && (floor(this->pos().y() / speed) == floor(11 * 32 / speed)) || this->enteringHouse) {
+        if ((floor(this->pos().x() / speed) == floor(14 * itemSize / speed)) && (floor(this->pos().y() / speed) == floor(11 * itemSize / speed)) || this->enteringHouse) {
             this->enteringHouse = true;
             this->enterHouseAnimation();
         }
         else if (!this->isInHouse()) {
-            this->setTarget(QPointF(14 * 32, 11 * 32));
+            this->setTarget(QPointF(14 * itemSize, 11 * itemSize));
         }
     }
     if (!this->enteringHouse) {

@@ -12,7 +12,7 @@
 
 class Ghost : public QGraphicsPixmapItem {
 public:
-    Ghost(const QPixmap& pixmap, const QPointF& scatterTarget, int speed, QGraphicsScene* scene, Level1& level);
+    Ghost(const QPixmap& pixmap, const QPointF& scatterTarget, int speed, QGraphicsScene* scene, Level1& level, float itemSize);
 
     // Update ghost's movement based on the mode and Pacman's position
     void updateMovement();
@@ -58,6 +58,7 @@ protected:
     bool inHouse;
     int distanceInTunnel;
     bool enteringHouse;
+    float itemSize;
 
     // Check if the ghost is at an intersection
     bool atIntersection();
@@ -74,13 +75,13 @@ protected:
 // Specific ghost subclasses
 class Blinky : public Ghost {
 public:
-    Blinky(QGraphicsScene* scene, Level1& level);
+    Blinky(QGraphicsScene* scene, Level1& level, float itemSize);
     void updateMovement(const QPointF& pacmanPos);
 };
 
 class Pinky : public Ghost {
 public:
-    Pinky(QGraphicsScene* scene, Level1& level);
+    Pinky(QGraphicsScene* scene, Level1& level, float itemSize);
 
     // Override updateMovement to add Pinky's specific chase behavior
     void updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirection);
@@ -88,14 +89,14 @@ public:
 
 class Inky : public Ghost {
 public:
-    Inky(QGraphicsScene* scene, Level1& level);
+    Inky(QGraphicsScene* scene, Level1& level, float itemSize);
 
     void updateMovement(const QPointF& pacmanPos, const QPointF& pacmanDirection, const QPointF& blinkyPos);
 };
 
 class Clyde : public Ghost {
 public:
-    Clyde(QGraphicsScene* scene, Level1& level);
+    Clyde(QGraphicsScene* scene, Level1& level, float itemSize);
 
     void updateMovement(const QPointF& pacmanPos);
 
