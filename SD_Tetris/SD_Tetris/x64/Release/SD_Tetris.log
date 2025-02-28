@@ -1,0 +1,30 @@
+﻿  Main.cpp
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(335,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(335,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(336,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(337,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(337,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(338,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(338,30): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(403,152): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Generating Code...
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(342,1): warning C4715: 'TetrisForm::GetHoldPosition': not all control paths return a value
+  Main.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  SD_Tetris.vcxproj -> C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\x64\Release\SD_Tetris.exe
