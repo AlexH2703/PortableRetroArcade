@@ -1,5 +1,5 @@
 ﻿  Main.cpp
-C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(387,100): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\grace\OneDrive\Documents\Senior Design\Senior Design Project\SD_Tetris\TetrisForm.h(395,100): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   (compiling source file 'Main.cpp')
   
   Main.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link

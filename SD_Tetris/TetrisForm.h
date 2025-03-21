@@ -66,6 +66,14 @@ private:
     Panel^ highScorePanel; // Panel to display high scores
     Label^ highScoreHeaderLabel; // Label for displaying lines cleared
     Panel^ NewHighScorePanel;
+    Label^ NewHighScoreHeaderLabel;
+    Label^ EnterInitalsLabel;
+    TextBox^ EnterInitals;
+    Label^ DisplayHighScoreHeader;
+    Label^ DisplayHighScore;
+    Button^ NewHighScoreButton;
+    Button^ NewHighScoreCancelButton;
+
     //Image Paths
     String^ squareImagePath;
     String^ lineImagePath;
@@ -645,7 +653,7 @@ public:
 
         //Panel to appear when achive new high score
         NewHighScorePanel = gcnew Panel();
-        NewHighScorePanel->Size = System::Drawing::Size(400, 400); // Full size
+        NewHighScorePanel->Size = System::Drawing::Size(400, 350); // Full size
         NewHighScorePanel->Location = System::Drawing::Point(
             (this->ClientSize.Width - NewHighScorePanel->Width) / 2,
             (this->ClientSize.Height - NewHighScorePanel->Height) / 2
@@ -655,28 +663,85 @@ public:
         // Add the overlay panel to the form
         this->Controls->Add(NewHighScorePanel);
 
-        Label^ NewHighScoreHeaderLabel = gcnew Label();
-        NewHighScoreHeaderLabel->Text = "NEW HIGH SCORE!";
-        NewHighScoreHeaderLabel->Font = gcnew System::Drawing::Font("Press Start 2P", 20, FontStyle::Bold);
+        NewHighScoreHeaderLabel = gcnew Label();
+        NewHighScoreHeaderLabel->Text = "NEW HIGH \nSCORE!";
+        NewHighScoreHeaderLabel->Font = gcnew System::Drawing::Font("Press Start 2P", 30, FontStyle::Bold);
         NewHighScoreHeaderLabel->AutoSize = true;
-        NewHighScoreHeaderLabel->BackColor = Color::LightGray;
+        NewHighScoreHeaderLabel->BackColor = Color::DarkGray;
         NewHighScoreHeaderLabel->ForeColor = Color::Black; // Game over text color
+        NewHighScoreHeaderLabel->TextAlign = ContentAlignment::MiddleCenter;
         NewHighScorePanel->Controls->Add(NewHighScoreHeaderLabel);
-        NewHighScoreHeaderLabel->Location = System::Drawing::Point((NewHighScorePanel->Width - NewHighScoreHeaderLabel->Width) / 35, (NewHighScorePanel->Height - 150));
+        NewHighScoreHeaderLabel->Location = System::Drawing::Point((NewHighScorePanel->Width - NewHighScoreHeaderLabel->Width) / 2, 10);
+        NewHighScoreHeaderLabel->Visible = true;
         NewHighScoreHeaderLabel->BringToFront(); // Ensure it's above the panel
-        /*
-        gameOverLabel = gcnew System::Windows::Forms::Label();
-        gameOverLabel->AutoSize = true;
-        gameOverLabel->BackColor = Color::Transparent;
-        gameOverLabel->Font = (gcnew System::Drawing::Font(L"Press Start 2P", 28, System::Drawing::FontStyle::Bold));
-        gameOverLabel->ForeColor = Color::Black; // Game over text color
-        gameOverLabel->Text = "Game Over!";
-        gameOverLabel->Location = Point((overlayPanel->Width - gameOverLabel->Width) / 35,
-            (overlayPanel->Height - 150)
-        );
-        gameOverLabel->Visible = true; // Set visibility true when added
-        overlayPanel->Controls->Add(gameOverLabel);
-        */
+
+        EnterInitalsLabel = gcnew Label();
+        EnterInitalsLabel->Text = "Enter Initals: ";
+        EnterInitalsLabel->Font = gcnew System::Drawing::Font("Press Start 2P", 16, FontStyle::Bold);
+        EnterInitalsLabel->AutoSize = true;
+        EnterInitalsLabel->BackColor = Color::DarkGray;
+        EnterInitalsLabel->ForeColor = Color::Black; // Game over text color
+        EnterInitalsLabel->TextAlign = ContentAlignment::MiddleCenter;
+        NewHighScorePanel->Controls->Add(EnterInitalsLabel);
+        EnterInitalsLabel->Location = System::Drawing::Point(10, NewHighScoreHeaderLabel->Height + 25);
+        EnterInitalsLabel->Visible = true;
+        EnterInitalsLabel->BringToFront(); // Ensure it's above the panel
+
+        EnterInitals = gcnew TextBox();
+        EnterInitals->MaxLength = 3; // Limit to 3 characters
+        EnterInitals->Font = gcnew System::Drawing::Font("Press Start 2P", 14);
+        EnterInitals->CharacterCasing = CharacterCasing::Upper; // Force uppercase
+        EnterInitals->Size = System::Drawing::Size(EnterInitalsLabel->Width, 50);
+        EnterInitals->Location = System::Drawing::Point(15, EnterInitalsLabel->Bottom + 10);
+        NewHighScorePanel->Controls->Add(EnterInitals);
+
+        DisplayHighScoreHeader = gcnew Label();
+        DisplayHighScoreHeader->Text = "Your Score: ";
+        DisplayHighScoreHeader->Font = gcnew System::Drawing::Font("Press Start 2P", 16, FontStyle::Bold);
+        DisplayHighScoreHeader->AutoSize = true;
+        DisplayHighScoreHeader->BackColor = Color::DarkGray;
+        DisplayHighScoreHeader->ForeColor = Color::Black; // Game over text color
+        DisplayHighScoreHeader->TextAlign = ContentAlignment::MiddleCenter;
+        NewHighScorePanel->Controls->Add(DisplayHighScoreHeader);
+        DisplayHighScoreHeader->Location = System::Drawing::Point(10, EnterInitals->Bottom + 25);
+        DisplayHighScoreHeader->Visible = true;
+        DisplayHighScoreHeader->BringToFront(); // Ensure it's above the panel
+
+        DisplayHighScore = gcnew Label();
+        //DisplayHighScore->Text = gameBoard->Score;
+        DisplayHighScore->Font = gcnew System::Drawing::Font("Press Start 2P", 16, FontStyle::Bold);
+        DisplayHighScore->AutoSize = true;
+        DisplayHighScore->BackColor = Color::DarkGray;
+        DisplayHighScore->ForeColor = Color::Black; // Game over text color
+        DisplayHighScore->TextAlign = ContentAlignment::MiddleCenter;
+        NewHighScorePanel->Controls->Add(DisplayHighScore);
+        DisplayHighScore->Location = System::Drawing::Point(10, DisplayHighScoreHeader->Bottom + 25);
+        DisplayHighScore->Visible = true;
+        DisplayHighScore->BringToFront(); // Ensure it's above the panel
+
+        // Initialize New High Score Cancel Button
+        NewHighScoreCancelButton = gcnew Button();
+        NewHighScoreCancelButton->Text = "Cancel";
+        NewHighScoreCancelButton->Location = Point(20, DisplayHighScore->Bottom + 20);
+        NewHighScoreCancelButton->Size = System::Drawing::Size((NewHighScorePanel->Width / 2) - 30, 50);
+        NewHighScoreCancelButton->Font = (gcnew System::Drawing::Font(L"Press Start 2P", 12, System::Drawing::FontStyle::Bold)); // Increase font size
+        NewHighScoreCancelButton->Click += gcnew EventHandler(this, &TetrisForm::OnHighScoreCancelButtonClick);
+        NewHighScorePanel->Controls->Add(NewHighScoreCancelButton);
+        NewHighScoreCancelButton->Paint += gcnew PaintEventHandler(this, &TetrisForm::OnButtonPaint);
+        
+        // Initialize New High Score Button
+        NewHighScoreButton = gcnew Button();
+        NewHighScoreButton->Text = "Submit";
+        NewHighScoreButton->Location = Point(((NewHighScorePanel->Width - NewHighScoreButton->Width) / 2)+40, DisplayHighScore->Bottom + 20);
+        NewHighScoreButton->Size = System::Drawing::Size((NewHighScorePanel->Width / 2) - 30, 50);
+        NewHighScoreButton->Font = (gcnew System::Drawing::Font(L"Press Start 2P", 12, System::Drawing::FontStyle::Bold)); // Increase font size
+        NewHighScoreButton->Click += gcnew EventHandler(this, &TetrisForm::OnHighScoreButtonClick);
+        NewHighScorePanel->Controls->Add(NewHighScoreButton);
+        NewHighScoreButton->Paint += gcnew PaintEventHandler(this, &TetrisForm::OnButtonPaint);
+
+        
+
+
         /*-------------------------------------------------------------------------
                              Actually Create the Game Board
         -------------------------------------------------------------------------*/
@@ -807,8 +872,8 @@ protected:
 
         // Draw overlay if game is over
         if (isGameOver) {
-            overlayPanel->Visible = true; // Ensure overlay is visible
-            overlayPanel->BringToFront(); // Bring overlay to the front
+            //overlayPanel->Visible = true; // Ensure overlay is visible
+            //overlayPanel->BringToFront(); // Bring overlay to the front
             //NewHighScorePanel->Visible = true; // Ensure overlay is visible
             //NewHighScorePanel->BringToFront(); // Bring overlay to the front
         }
@@ -928,6 +993,57 @@ protected:
         this->Close(); // Close the form and return to the main menu
     }
 
+    void OnHighScoreCancelButtonClick(Object^ sender, EventArgs^ e) {
+        gameOverLabel->Visible = true; // Show game over label
+        overlayPanel->Visible = true; // Show the overlay panel
+        restartButton->Visible = true;
+        mainMenuButton->Visible = true;
+        NewHighScorePanel->Visible = false; // Ensure overlay is visible
+        NewHighScoreHeaderLabel->Visible = false;
+        restartButton->Focus();
+        overlayPanel->BringToFront();
+    }
+
+    void OnHighScoreButtonClick(Object^ sender, EventArgs^ e) {
+        // Assuming you already have the connection object set up
+        SqlConnection^ conn = gcnew SqlConnection(connectionString);
+
+        try {
+            // Open the connection
+            conn->Open();
+
+            if (EnterInitals->Text != "" && DisplayHighScore->Text != "") {
+                String^ query = "INSERT INTO TETRIS_HIGH_SCORES (INITAL, SCORE) VALUES (@name, @score)";
+                SqlCommand^ command = gcnew SqlCommand(query, conn);
+                command->Parameters->AddWithValue("@name", EnterInitals->Text);
+                command->Parameters->AddWithValue("@score", Convert::ToInt32(DisplayHighScore->Text)); // Ensure score is stored as an integer
+
+                // Execute command
+                int rowsAffected = command->ExecuteNonQuery();
+                LoadHighScores();
+                EnterInitals->Text = "";
+            }
+        }
+        catch (Exception^ ex) {
+            MessageBox::Show("Error: " + ex->Message);
+        }
+        finally {
+            // Close the connection
+            if (conn->State == ConnectionState::Open) {
+                conn->Close();
+            }
+        }
+
+        gameOverLabel->Visible = true; // Show game over label
+        overlayPanel->Visible = true; // Show the overlay panel
+        restartButton->Visible = true;
+        mainMenuButton->Visible = true;
+        NewHighScorePanel->Visible = false; // Ensure overlay is visible
+        NewHighScoreHeaderLabel->Visible = false;
+        restartButton->Focus();
+        overlayPanel->BringToFront();
+    }
+
     void OnFallTimerTick(Object^ sender, EventArgs^ e) {
         if (isGameOver) return; // Prevent further processing if game is over
 
@@ -950,12 +1066,7 @@ protected:
                 if (y < 0 || (gameBoard->IsOccupied(x, y) && y < 1)) {
                     isGameOver = true;
                     fallTimer->Stop(); // Stop the fall timer
-                    gameOverLabel->Visible = true; // Show game over label
-                    overlayPanel->Visible = true; // Show the overlay panel
-                    overlayPanel->BringToFront(); // Bring overlay to the front
                     CheckNewHighScore();
-                    // Set focus to the restart button
-                    restartButton->Focus(); // Focus on the restart button
                     break; // Exit the loop early
                 }
             }
@@ -1038,12 +1149,26 @@ protected:
 
                 // Check if the player's score qualifies (is higher than the lowest score)
                 if (gameBoard->Score > lowestTopScore) {
+                    gameOverLabel->Visible = false; // Show game over label
+                    overlayPanel->Visible = false; // Show the overlay panel
+                    restartButton->Visible = false;
+                    mainMenuButton->Visible = false;
                     // Show a panel if the player's score is in the top 5
+                    DisplayHighScore->Text = gameBoard->Score.ToString();
                     NewHighScorePanel->Visible = true; // Ensure overlay is visible
+                    NewHighScoreHeaderLabel->Visible = true;
+                    EnterInitals->Focus();
                     NewHighScorePanel->BringToFront(); // Bring overlay to the front
+                    
                 }
                 else {
-                    MessageBox::Show("Your score didn't make the top 5.");
+
+                    gameOverLabel->Visible = true; // Show game over label
+                    overlayPanel->Visible = true; // Show the overlay panel
+                    overlayPanel->BringToFront(); // Bring overlay to the front
+
+                    // Set focus to the restart button
+                    restartButton->Focus(); // Focus on the restart button
                 }
             }
         }
