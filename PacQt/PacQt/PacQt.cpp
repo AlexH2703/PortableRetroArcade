@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include <QDebug>
+#include <QInputDialog>
 #include "Ghost.h"
 #include "dbHelper.h"
 
@@ -567,12 +568,55 @@ bool PacQt::isHighScore(int score) {
 
     // Check if the new score is higher than the lowest score in the list
     if (highScores.size() < 5 || score > highScores.last().second) {
-		qDebug() << "New High Score!";
         return true;
     }
-    qDebug() << "Score is not high enough to be added to the high scores list.";
 }
 
+QString PacQt::promptForHighScoreName() {
+    bool ok;
+    QInputDialog inputDialog(this);
+    inputDialog.setWindowTitle(tr("New High Score!"));
+    inputDialog.setLabelText(tr("Enter your initials:"));
+    inputDialog.setTextValue("");
+
+    // Custom StyleSheet
+    QString inputDialogStyle = R"(
+        QDialog {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        QLabel {
+            color: white;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+        QLineEdit {
+            background-color: white;
+            color: black;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+        QPushButton {
+            background-color: white;
+            color: black;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+    )";
+    inputDialog.setStyleSheet(inputDialogStyle);
+
+    // Set custom font
+    QFont font("Press Start 2P", this->height() * 0.1, QFont::Bold);
+    inputDialog.setFont(font);
+
+    if (inputDialog.exec() == QDialog::Accepted) {
+        QString name = inputDialog.textValue();
+        if (!name.isEmpty()) {
+            return name.left(3).toUpper();
+        }
+    }
+    return promptForHighScoreName();
+}
 
 
 void PacQt::updateGame() {
@@ -592,7 +636,7 @@ void PacQt::updateGame() {
         gameOverLabel->show();
 
         if (isHighScore(score)) {
-            dbHelper::addHighScore("Alex", score);
+			dbHelper::addHighScore(promptForHighScoreName(), score);
         }
 
         lives = 3;

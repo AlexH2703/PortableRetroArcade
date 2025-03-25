@@ -37,13 +37,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.8.0_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>6.8.2_msvc2022_64</QtInstall>
+    <QtModules>core;gui;widgets;sql</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.8.2_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtInstall>C:\Qt\6.8.2\msvc2022_64</QtInstall>
+    <QtModules>core;gui;widgets; sql</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -96,6 +96,7 @@
     <QtRcc Include="PacQt.qrc" />
     <QtUic Include="PacQt.ui" />
     <QtMoc Include="PacQt.h" />
+    <ClCompile Include="dbHelper.cpp" />
     <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Level1.cpp" />
@@ -104,6 +105,7 @@
     <ClCompile Include="PacQt.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dbHelper.h" />
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Level1.h" />

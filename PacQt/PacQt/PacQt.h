@@ -43,6 +43,7 @@ private slots:
     void initLabels();
 	void displayHighScores();
 	bool isHighScore(int score);
+    QString promptForHighScoreName();
 
 
 private:
