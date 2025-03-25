@@ -1,223 +1,3 @@
-//#include "PacQt.h"
-//#include <QFileDialog>
-//#include <QPainter>
-//#include <QLabel>
-//#include <QGridLayout>
-//#include <QDebug>
-//#include "Ghost.h"
-//
-//PacQt::PacQt(QWidget* parent)
-//    : QMainWindow(parent),
-//    scene(new QGraphicsScene(this)),
-//    graphicsView(new QGraphicsView(this)),
-//    timer(new QTimer(this)),
-//    lives(3),
-//    score(0),
-//    level(1),
-//    frenzyMode(false),
-//    pacmanSpeed(2),
-//    ghostsEaten(0),
-//    pacmanDirection(0, 0),
-//    nextDirection(0, 0),
-//    level1(),
-//    pacman(nullptr),
-//    gameStarted(false), // Track whether the game has started
-//    blinky(new Blinky(scene, level1)),
-//    pinky(new Pinky(scene, level1)),
-//    inky(new Inky(scene, level1)),
-//    clyde(new Clyde(scene, level1))
-//{
-//    ui.setupUi(this);
-//    this->setWindowState(Qt::WindowMaximized);
-//
-//
-//    graphicsView->setFixedSize(1216, 896); // Set fixed size of graphics view
-//    graphicsView->setScene(scene);
-//    graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff); 
-//
-//    // Install event filter to prevent arrow key panning
-//    graphicsView->installEventFilter(this);
-//
-//    // Ensure Level1 is initialized correctly
-//    level1 = Level1();
-//    updateGridDisplay(); 
-//
-//    initLabels();
-//
-//    // The game will start only after the resize event completes
-//    this->show();
-//}
-//
-//void PacQt::initLabels() {
-//    QFontDatabase fontDatabase;
-//    int fontId = fontDatabase.addApplicationFont(":/PacQt/PressStart2P-Regular.ttf");
-//    scoreLabel = new QLabel(this);
-//    scoreLabel->setText(QString("Score:\n %1").arg(score));
-//    QFont font("Press Start 2P", 36, QFont::Bold);
-//    scoreLabel->setFont(font);
-//    scoreLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    scoreLabel->setFixedSize(300, 110);
-//    scoreLabel->move(150, 100); // Position in the top-left corner
-//    scoreLabel->show();
-//
-//    levelLabel = new QLabel(this);
-//    levelLabel->setText(QString("Level:\n %1").arg(level));
-//    levelLabel->setFont(font);
-//    levelLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    levelLabel->setFixedSize(300, 110);
-//    levelLabel->move(150, 210);
-//    levelLabel->show();
-//
-//    livesLabel = new QLabel(this);
-//    livesLabel->setText(QString("Lives:\n %1").arg(lives));
-//    livesLabel->setFont(font);
-//    livesLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    livesLabel->setFixedSize(300, 110);
-//    livesLabel->move(150, 320);
-//    livesLabel->show();
-//
-//    resumeLabel = new QLabel(this);
-//    resumeLabel->setText(QString("Please Press\n'R' to Start\nor Resume"));
-//    resumeLabel->setFont(QFont("Press Start 2P", 26, QFont::Bold));
-//    resumeLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    resumeLabel->setFixedSize(450, 300);
-//    resumeLabel->move(704, 350);
-//    resumeLabel->show();
-//
-//    controlsLabel = new QLabel(this);
-//    controlsLabel->setText(
-//        "<html><body style='color: white; background-color: rgba(0, 0, 0, 0.5);'>"
-//        "Controls:<br>"
-//        "<table>"
-//        "<tr style='line-height: 1.5;'><td>'\u2191' - Up</td></tr>"
-//        "<tr style='line-height: 1.5;'><td>'\u2193' - Down</td></tr>"
-//        "<tr style='line-height: 1.5;'><td>'\u2190' - Left</td></tr>"
-//        "<tr style='line-height: 1.5;'><td>'\u2192' - Right</td></tr>"
-//        "</table><br><br>"
-//        "'R' - Resume/Start<br>"
-//        "'P' - Pause<br>"
-//        "'ESC' - Main Menu"
-//        "</body></html>"
-//    );
-//    controlsLabel->setFont(QFont("Press Start 2P", 17, QFont::Bold));
-//    controlsLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    controlsLabel->setFixedSize(500, 300);
-//    controlsLabel->move(1400, 200);
-//    controlsLabel->show();
-//
-//    gameOverLabel = new QLabel(this);
-//    gameOverLabel->setText("GAME OVER");
-//    gameOverLabel->setFont(QFont("Press Start 2P", 54, QFont::Bold));
-//    gameOverLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-//    gameOverLabel->setFixedSize(650, 110);
-//    gameOverLabel->move(610, 200);
-//    gameOverLabel->hide();
-//}
-//
-//void PacQt::initPacmanLocation() {
-//    if (!pacman) {
-//        pacman = new QGraphicsPixmapItem(QPixmap(":/PacQt/pacman.png"));
-//        pacman->setPos(416, 736);
-//        pacman->setZValue(10);
-//        pacman->setTransformOriginPoint(pacman->boundingRect().center());
-//        scene->addItem(pacman); // Ensure Pacman is added to the scene
-//    }
-//}
-//
-//QPointF& PacQt::getPacmanDirection() {
-//    return pacmanDirection;
-//}
-//
-//void PacQt::initGhostLocation() {
-//    blinky->setPos(14 * 32, 11 * 32);
-//    blinky->setZValue(3);
-//    pinky->setPos(16 * 32, 13 * 32);
-//    pinky->setZValue(3);
-//    inky->setPos(11 * 32, 15 * 32);
-//    inky->setZValue(3);
-//    clyde->setPos(16 * 32, 15 * 32);
-//    clyde->setZValue(3);
-//    scene->addItem(blinky);
-//    scene->addItem(pinky);
-//    scene->addItem(inky);
-//    scene->addItem(clyde);
-//}
-//
-//void PacQt::resetPacmanLocation() {
-//    pacman->setPos(416, 736);
-//    pacmanOldLocation = pacman->pos();
-//    pacmanDirection.setX(0);
-//    pacmanDirection.setY(0);
-//    nextDirection.setX(0);
-//    nextDirection.setY(0);
-//}
-//
-//void PacQt::handlePacmanOrientation() {
-//    int angle = 0; // Default angle
-//    pacman->setTransform(QTransform()); //reset transform
-//    if (pacmanDirection == QPointF(0, -1)) {
-//        angle = 270; // Up
-//    }
-//    else if (pacmanDirection == QPointF(-1, 0)) { //Left
-//        QTransform flipTransform;
-//        flipTransform.translate(pacman->boundingRect().width() / 2.0, 0); // Center the flip
-//        flipTransform.scale(-1, 1);                                      // Horizontal flip
-//        flipTransform.translate(-pacman->boundingRect().width() / 2.0, 0);
-//        pacman->setTransform(flipTransform);
-//    }
-//    else if (pacmanDirection == QPointF(0, 1)) {
-//        angle = 90; // Down
-//    }
-//    // No need to check (1, 0) as it's the default angle
-//
-//    pacman->setRotation(angle);
-//}
-//
-//void PacQt::clearSceneExcept(vector<QGraphicsItem*> itemsToKeep) {
-//    // Get all items currently in the scene
-//    QList<QGraphicsItem*> itemsInScene = scene->items();
-//
-//    // Iterate through each item
-//    for (QGraphicsItem* item : itemsInScene) {
-//        // If the item is not the one we want to keep, remove it
-//        if (std::find(itemsToKeep.begin(), itemsToKeep.end(), item) == itemsToKeep.end()) {
-//            scene->removeItem(item);
-//        }
-//    }
-//}
-//
-//void PacQt::resizeEvent(QResizeEvent* event) {
-//    QMainWindow::resizeEvent(event);
-//
-//    // Resize graphics view to fit the entire window
-//    graphicsView->setFixedSize(this->size());
-//
-//    // Calculate new width and height for the scene
-//    int newWidth = this->width()/2;
-//    int newHeight = this->height();
-//
-//    // Set the scene rectangle to the new dimensions
-//    scene->setSceneRect(0, 0, newWidth, newHeight);
-//
-//    // Ensure Pacman initialization and game start happens after the resize is complete
-//    if (!gameStarted) {
-//        gameStarted = true; // Mark that the game is starting
-//        QTimer::singleShot(0, this, &PacQt::startGameAfterResize); // Delay game start
-//    }
-//}
-//
-//void PacQt::startGameAfterResize() {
-//    initPacmanLocation(); // Initialize Pacman after resize is done
-//    initGhostLocation();
-//
-//    // Start the game update cycle
-//    connect(timer, &QTimer::timeout, this, &PacQt::updateGame);
-//    timer->start(16); // Approximately 60 FPS
-//    timer->stop();
-//}
-//
-//PacQt::~PacQt() {}
 #include "PacQt.h"
 #include <QFileDialog>
 #include <QPainter>
@@ -225,6 +5,7 @@
 #include <QGridLayout>
 #include <QDebug>
 #include "Ghost.h"
+#include "dbHelper.h"
 
 PacQt::PacQt(QWidget* parent)
     : QMainWindow(parent),
@@ -246,7 +27,8 @@ PacQt::PacQt(QWidget* parent)
     blinky(),
     pinky(),
     inky(),
-    clyde()
+    clyde(),
+	highScoresLabel(new QLabel(this))
 {
     ui.setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
@@ -270,6 +52,8 @@ PacQt::PacQt(QWidget* parent)
 
     initLabels();
 
+	dbHelper::connectDatabase();  
+
     // The game will start only after the resize event completes
     this->show();
 }
@@ -292,8 +76,6 @@ void PacQt::initLabels() {
     QFont font("Press Start 2P", font1Height, QFont::Bold);
     scoreLabel->setFont(font);
     scoreLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*scoreLabel->setFixedSize(300, 110);
-    scoreLabel->move(150, 100);*/ // Position in the top-left corner
     scoreLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
     scoreLabel->move(screenWidth * 0.08, screenHeight * 0.18);
     scoreLabel->show();
@@ -302,8 +84,6 @@ void PacQt::initLabels() {
     levelLabel->setText(QString("Level:\n %1").arg(level));
     levelLabel->setFont(font);
     levelLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*levelLabel->setFixedSize(300, 110);
-    levelLabel->move(150, 210);*/
     levelLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
     levelLabel->move(screenWidth * 0.08, screenHeight * 0.43);
     levelLabel->show();
@@ -312,8 +92,6 @@ void PacQt::initLabels() {
     livesLabel->setText(QString("Lives:\n %1").arg(lives));
     livesLabel->setFont(font);
     livesLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*livesLabel->setFixedSize(300, 110);
-    livesLabel->move(150, 320);*/
     livesLabel->setFixedSize(screenWidth * 0.45, screenHeight * 0.25);
     livesLabel->move(screenWidth * 0.08, screenHeight * 0.68);
     livesLabel->show();
@@ -322,8 +100,6 @@ void PacQt::initLabels() {
     resumeLabel->setText(QString("Please Press\n'R' to Start\nor Resume"));
     resumeLabel->setFont(QFont("Press Start 2P", fontResumeHeight, QFont::Bold));
     resumeLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*resumeLabel->setFixedSize(450, 300);
-    resumeLabel->move(704, 350);*/
     resumeLabel->setFixedSize(screenWidth * 0.7, screenHeight * 0.35);
     resumeLabel->move(screenWidth*0.95, screenHeight);
     resumeLabel->show();
@@ -345,8 +121,6 @@ void PacQt::initLabels() {
     );
     controlsLabel->setFont(QFont("Press Start 2P", fontControlsHeight, QFont::Bold));
     controlsLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*controlsLabel->setFixedSize(500, 300);
-    controlsLabel->move(1400, 200);*/
     controlsLabel->setFixedSize(screenWidth * 0.65, screenHeight * 0.7);
     controlsLabel->move(screenWidth * 2, screenHeight * 0.18);
     controlsLabel->show();
@@ -355,8 +129,6 @@ void PacQt::initLabels() {
     gameOverLabel->setText("GAME OVER");
     gameOverLabel->setFont(QFont("Press Start 2P", fontGameOverHeight, QFont::Bold));
     gameOverLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
-    /*gameOverLabel->setFixedSize(650, 110);
-    gameOverLabel->move(610, 200);*/
     gameOverLabel->setFixedSize(screenWidth * 0.7, screenHeight * 0.3);
     gameOverLabel->move(screenWidth*.95, screenHeight * 0.25);
     gameOverLabel->hide();
@@ -463,6 +235,7 @@ void PacQt::startGameAfterResize() {
     connect(timer, &QTimer::timeout, this, &PacQt::updateGame);
     timer->start(16); // Approximately 60 FPS
     timer->stop();
+    QTimer::singleShot(0, this, &PacQt::displayHighScores);
 }
 
 PacQt::~PacQt() {}
@@ -766,6 +539,42 @@ void PacQt::resetBoard() {
 
 }
 
+void PacQt::displayHighScores() {
+    // Retrieve the top 5 high scores
+    QList<QPair<QString, int>> highScores = dbHelper::getTopHighScores(5);
+
+    // Create a string to display the high scores
+    QString highScoresText = "High Scores:\n";
+    for (int i = 0; i < highScores.size(); ++i) {
+        highScoresText += QString("%1.%2-%3\n")
+            .arg(i + 1)
+            .arg(highScores[i].first)
+            .arg(highScores[i].second);
+    } 
+    // Create a QLabel to display the high scores
+    highScoresLabel->setText(highScoresText);
+    highScoresLabel->setFont(QFont("Press Start 2P", this->height() * 0.025, QFont::Bold));
+    highScoresLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
+    highScoresLabel->setAlignment(Qt::AlignCenter);
+    highScoresLabel->setFixedSize(this->width() * 0.245, this->height() * 0.25);
+    highScoresLabel->move(this->width() * 0.75, this->height() * 0.5);
+    highScoresLabel->show();
+}
+
+bool PacQt::isHighScore(int score) {
+    // Retrieve the top 5 high scores
+    QList<QPair<QString, int>> highScores = dbHelper::getTopHighScores(5);
+
+    // Check if the new score is higher than the lowest score in the list
+    if (highScores.size() < 5 || score > highScores.last().second) {
+		qDebug() << "New High Score!";
+        return true;
+    }
+    qDebug() << "Score is not high enough to be added to the high scores list.";
+}
+
+
+
 void PacQt::updateGame() {
     if (shouldLevelUp) {
         level++;
@@ -781,6 +590,11 @@ void PacQt::updateGame() {
     
     if (!(lives > 0)) {
         gameOverLabel->show();
+
+        if (isHighScore(score)) {
+            dbHelper::addHighScore("Alex", score);
+        }
+
         lives = 3;
         livesLabel->setText(QString("Lives:\n %1").arg(lives));
         score = 0;
@@ -788,8 +602,8 @@ void PacQt::updateGame() {
         level = 0;
         levelLabel->setText(QString("Level:\n %1").arg(level));
         level1 = Level1();
-        resetBoard();
-        
+        resetBoard(); 
+        displayHighScores();
     }
 
     if (!blinky->isInHouse()) {

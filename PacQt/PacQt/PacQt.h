@@ -41,6 +41,8 @@ private slots:
     void enterFrenzyMode();
     void resetBoard();
     void initLabels();
+	void displayHighScores();
+	bool isHighScore(int score);
 
 
 private:
@@ -56,6 +58,7 @@ private:
     QLabel* resumeLabel;
     QLabel* controlsLabel;
     QLabel* gameOverLabel;
+	QLabel* highScoresLabel;
     Blinky* blinky;
     Pinky* pinky;
     Inky* inky;

@@ -24,3 +24,4 @@ SOURCES += Ghost.cpp \
            PacQt.cpp \
            x64/Debug/qt/rcc/qrc_PacQt.cpp
 RESOURCES += PacQt.qrc
+QT += sql
