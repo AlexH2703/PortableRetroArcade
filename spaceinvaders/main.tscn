@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkvrlbubecj5k"]
+
+[ext_resource type="Texture2D" uid="uid://tbjcq5hn7hkf" path="res://PurpleSpaceShip.png" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://0mld6oqyvrvm" path="res://Main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://b1abjr0vvh711" path="res://SpaceShipShoot.gd" id="2_0xm2m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+size = Vector2(400, 300)
+
+[node name="Main" type="Node2D"]
+position = Vector2(0, -2)
+script = ExtResource("1_h2yge")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -8.0
+offset_right = 1203.0
+offset_bottom = 661.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SpaceShip" type="Sprite2D" parent="."]
+position = Vector2(590, 544)
+scale = Vector2(2.5, 2.47)
+texture = ExtResource("1_0xm2m")
+script = ExtResource("2_0xm2m")
+
+[node name="ScreenEdge" type="Area2D" parent="." groups=["back_edge"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenEdge"]
+shape = SubResource("RectangleShape2D_0xm2m")
+
+[node name="AlienContainer" type="Node2D" parent="."]

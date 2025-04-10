@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://wculcwyn2x3j"]
+
+[ext_resource type="Texture2D" uid="uid://c5ikfequrjny" path="res://Alien1.1.png" id="1_qgse6"]
+[ext_resource type="Script" uid="uid://c23yjy21gnurc" path="res://Alien.gd" id="1_u5v8j"]
+[ext_resource type="Texture2D" uid="uid://dj36063n2lur6" path="res://Alien1.2.png" id="2_u5v8j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jhomo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qgse6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_u5v8j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtl1n"]
+
+[node name="Alien" type="Area2D"]
+script = ExtResource("1_u5v8j")
+
+[node name="Alien1" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jhomo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qtl1n")

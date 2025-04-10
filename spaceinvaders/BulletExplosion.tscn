@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cufm4vdn3lfbq"]
+
+[node name="BulletExplosion" type="Node2D"]
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+amount = 20
+explosiveness = 1.0
