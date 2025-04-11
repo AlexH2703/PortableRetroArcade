@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Qbert/coily.png</file>
+        <file>Qbert/coilyBall.png</file>
+        <file>Qbert/disk.png</file>
+        <file>Qbert/greenBall.png</file>
+        <file>Qbert/qbert.png</file>
+        <file>Qbert/redBall.png</file>
+    </qresource>
+</RCC>
