@@ -4,27 +4,31 @@
 [ext_resource type="Texture2D" uid="uid://cesyrfhlrg6l5" path="res://Bullet.png" id="1_blvg2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_blvg2"]
-size = Vector2(16, 16)
+size = Vector2(4.25, 14)
 
 [sub_resource type="Gradient" id="Gradient_rg43n"]
-offsets = PackedFloat32Array(0.0972222, 0.555556, 1)
-colors = PackedColorArray(0.853774, 0.575261, 0.000749877, 1, 0.872745, 0.336392, 0.0630399, 1, 0.894118, 0.380392, 0, 0)
+offsets = PackedFloat32Array(0.0972222, 0.420635, 0.674603, 1)
+colors = PackedColorArray(0.853774, 0.575261, 0.000749877, 1, 0.872745, 0.336392, 0.0630399, 1, 0.815718, 0, 0.084321, 1, 0.894118, 0.380392, 0, 0)
 
 [node name="Bullet2" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_5kh6s")
 
 [node name="Bullet" type="Sprite2D" parent="."]
-position = Vector2(56, 55.5)
+position = Vector2(4, 5)
 scale = Vector2(4.5, 4.46875)
 texture = ExtResource("1_blvg2")
 
 [node name="BulletCollision" type="CollisionShape2D" parent="."]
+position = Vector2(2, -6)
 shape = SubResource("RectangleShape2D_blvg2")
 
 [node name="ExplosionParticles" type="CPUParticles2D" parent="."]
-modulate = Color(0.929342, 0.404286, 0.0711092, 1)
+modulate = Color(0.929412, 0.403922, 0.0705882, 1)
+position = Vector2(2, -6)
 emitting = false
-amount = 20
+amount = 50
 one_shot = true
 explosiveness = 1.0
 direction = Vector2(0, -1)
@@ -32,5 +36,5 @@ spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 100.0
 initial_velocity_max = 150.0
-scale_amount_min = 0.5
+scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_rg43n")

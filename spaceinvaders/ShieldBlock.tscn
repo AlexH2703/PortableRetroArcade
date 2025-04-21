@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b78ytad61wobt"]
+
+[ext_resource type="Script" uid="uid://cmg2hheoiv2n" path="res://ShieldBlock.gd" id="1_5goon"]
+[ext_resource type="Texture2D" uid="uid://c6hxootvmv3ce" path="res://Block.png" id="2_dybv6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qh74l"]
+size = Vector2(8, 8)
+
+[node name="ShieldBlock" type="StaticBody2D" groups=["ShieldBlock"]]
+collision_layer = 6
+collision_mask = 2
+script = ExtResource("1_5goon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["ShieldBlock"]]
+shape = SubResource("RectangleShape2D_qh74l")
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["ShieldBlock"]]
+scale = Vector2(4, 4)
+texture = ExtResource("2_dybv6")

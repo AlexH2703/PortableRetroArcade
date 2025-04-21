@@ -1,11 +1,9 @@
 extends Area2D
 
 @export var speed: float = 20.0
-@export var points = 10
-
+@export var points = 20
 var bullet_scene: PackedScene = preload("res://AlienBullet.tscn")
 var shoot_timer = Timer
-
 func _on_Hit():
 	get_node("/root/Main").add_score(points)  # Assuming the GameManager is the parent, or adjust as needed
 

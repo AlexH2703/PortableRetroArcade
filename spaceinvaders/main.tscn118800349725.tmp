@@ -1,17 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://dkvrlbubecj5k"]
+[gd_scene load_steps=10 format=3 uid="uid://dkvrlbubecj5k"]
 
 [ext_resource type="Texture2D" uid="uid://tbjcq5hn7hkf" path="res://PurpleSpaceShip.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://0mld6oqyvrvm" path="res://Main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://b1abjr0vvh711" path="res://SpaceShipShoot.gd" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://bhsq4pcp6j8py" path="res://SpaceShipArea.gd" id="2_lquwl"]
 [ext_resource type="FontFile" uid="uid://c78jmwgow4swn" path="res://PressStart2P-Regular.ttf" id="4_1bvp3"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lquwl"]
-radius = 27.0
-height = 54.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
+size = Vector2(55.5, 51.5)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_h2yge"]
-a = Vector2(-618, -308)
+a = Vector2(-615, -293)
 b = Vector2(653, -308)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
@@ -26,35 +24,32 @@ font_size = 32
 font = ExtResource("4_1bvp3")
 font_size = 32
 
-[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
-font = ExtResource("4_1bvp3")
-
-[node name="Main" type="Node2D" groups=["player"]]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1160.0
-offset_bottom = 662.0
+offset_left = 1.0
+offset_top = -8.0
+offset_right = 1203.0
+offset_bottom = 661.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="SpaceShipArea" type="Area2D" parent="." groups=["player"]]
-collision_mask = 2
-script = ExtResource("2_lquwl")
-
-[node name="SpaceShip" type="Sprite2D" parent="SpaceShipArea" groups=["player"]]
-position = Vector2(42, 572)
+[node name="SpaceShip" type="Sprite2D" parent="." groups=["player"]]
+position = Vector2(590, 544)
 scale = Vector2(2.5, 2.47)
 texture = ExtResource("1_0xm2m")
 script = ExtResource("2_0xm2m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpaceShipArea" groups=["player"]]
-position = Vector2(43, 574)
-shape = SubResource("CapsuleShape2D_lquwl")
+[node name="IDK what this is but it works" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="IDK what this is but it works" groups=["player"]]
+position = Vector2(592, 546)
+shape = SubResource("RectangleShape2D_0xm2m")
 
 [node name="AlienContainer" type="Node2D" parent="."]
 
@@ -89,38 +84,3 @@ offset_right = 264.0
 offset_bottom = 650.0
 text = "Lives:3"
 label_settings = SubResource("LabelSettings_272bh")
-
-[node name="GameOverOverlay" type="CanvasLayer" parent="."]
-process_mode = 3
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="GameOverOverlay"]
-offset_left = 352.0
-offset_top = 183.0
-offset_right = 771.0
-offset_bottom = 456.0
-color = Color(0.537255, 0.537255, 0.537255, 0.52549)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverOverlay"]
-offset_left = 356.0
-offset_top = 190.0
-offset_right = 770.0
-offset_bottom = 466.0
-
-[node name="GameOver" type="Label" parent="GameOverOverlay/VBoxContainer"]
-layout_mode = 2
-text = "GAME OVER"
-label_settings = SubResource("LabelSettings_5vw27")
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="GameOverOverlay/VBoxContainer"]
-layout_mode = 2
-text = "Leaderboard"
-
-[node name="RestartButton" type="Button" parent="GameOverOverlay/VBoxContainer"]
-layout_mode = 2
-text = "Reset"
-
-[node name="MainMenuButton" type="Button" parent="GameOverOverlay/VBoxContainer"]
-layout_mode = 2
-text = "Main Menu"

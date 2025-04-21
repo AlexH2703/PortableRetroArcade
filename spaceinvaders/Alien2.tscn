@@ -1,17 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://wculcwyn2x3j"]
+[gd_scene load_steps=6 format=3 uid="uid://ce142n6640g1w"]
 
-[ext_resource type="Texture2D" uid="uid://c5ikfequrjny" path="res://Alien1.1.png" id="1_qgse6"]
-[ext_resource type="Script" uid="uid://c23yjy21gnurc" path="res://Alien.gd" id="1_u5v8j"]
-[ext_resource type="Texture2D" uid="uid://dj36063n2lur6" path="res://Alien1.2.png" id="2_u5v8j"]
+[ext_resource type="Script" uid="uid://b33th6y0voy0a" path="res://Alien2.gd" id="1_7t3oi"]
+[ext_resource type="Texture2D" uid="uid://pudkciki735c" path="res://Alien2.1.png" id="4_7xe1o"]
+[ext_resource type="Texture2D" uid="uid://dgc6yo7ttub5y" path="res://Alien2.2.png" id="5_505bp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jhomo"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_qgse6")
+"texture": ExtResource("4_7xe1o")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_u5v8j")
+"texture": ExtResource("5_505bp")
 }],
 "loop": true,
 "name": &"default",
@@ -19,17 +19,17 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xv5fc"]
-radius = 9.0
-height = 20.0
+radius = 8.0
+height = 18.0
 
 [node name="Alien" type="Area2D" groups=["enemy"]]
 collision_layer = 2
-script = ExtResource("1_u5v8j")
+script = ExtResource("1_7t3oi")
 
 [node name="Alien1" type="AnimatedSprite2D" parent="." groups=["enemy"]]
 sprite_frames = SubResource("SpriteFrames_jhomo")
 speed_scale = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
-position = Vector2(0, 4)
+position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_xv5fc")
