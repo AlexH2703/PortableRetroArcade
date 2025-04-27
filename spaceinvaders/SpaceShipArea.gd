@@ -17,6 +17,7 @@ signal ship_hit(lives_left)
 func _ready():
 	screen_size = get_viewport_rect().size
 	screen_size.x = screen_size.x - 70
+	position = Vector2(screen_size.x / 2, screen_size.y - 100)
 
 func _process(delta):
 	var velocity = Vector2.ZERO
@@ -44,9 +45,8 @@ func _process(delta):
 
 # Function to shoot bullets
 func shoot_bullet():
-	print(to_global(Vector2.ZERO) + Vector2(0, -10)) 
 	var bullet = bullet_scene.instantiate()
-	bullet.position = to_global(Vector2.ZERO) + Vector2(42, 580)
+	bullet.position = to_global(Vector2.ZERO)
 
 	get_tree().current_scene.add_child(bullet)
 	

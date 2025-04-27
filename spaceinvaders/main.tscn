@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://dkvrlbubecj5k"]
+[gd_scene load_steps=16 format=3 uid="uid://dkvrlbubecj5k"]
 
 [ext_resource type="Texture2D" uid="uid://tbjcq5hn7hkf" path="res://PurpleSpaceShip.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://0mld6oqyvrvm" path="res://Main.gd" id="1_h2yge"]
-[ext_resource type="Script" path="res://SpaceShipShoot.gd" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://bhsq4pcp6j8py" path="res://SpaceShipArea.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://bhsq4pcp6j8py" path="res://SpaceShipArea.gd" id="2_0xm2m"]
 [ext_resource type="FontFile" uid="uid://c78jmwgow4swn" path="res://PressStart2P-Regular.ttf" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://ci7fri2io4ar5" path="res://HttpRequest.gd" id="7_272bh"]
 
@@ -36,6 +35,10 @@ border_width_bottom = 10
 border_color = Color(0.699653, 0.699654, 0.699653, 0.843137)
 border_blend = true
 
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font = ExtResource("4_1bvp3")
+font_size = 32
+
 [sub_resource type="Theme" id="Theme_lquwl"]
 default_font = ExtResource("4_1bvp3")
 default_font_size = 26
@@ -53,10 +56,6 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
-font = ExtResource("4_1bvp3")
-font_size = 32
-
 [sub_resource type="LabelSettings" id="LabelSettings_kek77"]
 font = ExtResource("4_1bvp3")
 font_size = 22
@@ -68,24 +67,21 @@ script = ExtResource("1_h2yge")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1160.0
-offset_bottom = 662.0
+offset_right = 1799.0
+offset_bottom = 1038.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="SpaceShipArea" type="Area2D" parent="." groups=["player"]]
 collision_mask = 2
-script = ExtResource("2_lquwl")
-
-[node name="SpaceShip" type="Sprite2D" parent="SpaceShipArea" groups=["player"]]
-position = Vector2(42, 572)
-scale = Vector2(2.5, 2.47)
-texture = ExtResource("1_0xm2m")
 script = ExtResource("2_0xm2m")
 
+[node name="SpaceShip" type="Sprite2D" parent="SpaceShipArea" groups=["player"]]
+scale = Vector2(2.5, 2.47)
+texture = ExtResource("1_0xm2m")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpaceShipArea" groups=["player"]]
-position = Vector2(43, 574)
 shape = SubResource("CapsuleShape2D_lquwl")
 
 [node name="AlienContainer" type="Node2D" parent="."]
@@ -126,46 +122,58 @@ label_settings = SubResource("LabelSettings_272bh")
 process_mode = 3
 visible = false
 
-[node name="Panel" type="Panel" parent="GameOverOverlay"]
-offset_left = 336.0
-offset_top = 229.0
-offset_right = 758.0
-offset_bottom = 382.0
+[node name="CenterContainer" type="CenterContainer" parent="GameOverOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="GameOverOverlay/CenterContainer"]
+custom_minimum_size = Vector2(450, 200)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7mycd")
 
-[node name="RestartButton" type="Button" parent="GameOverOverlay"]
-offset_left = 343.0
-offset_top = 323.0
-offset_right = 496.0
-offset_bottom = 359.0
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverOverlay/CenterContainer/Panel"]
+layout_mode = 2
+offset_left = 85.0
+offset_top = 29.0
+offset_right = 373.0
+offset_bottom = 61.0
+
+[node name="GameOver" type="Label" parent="GameOverOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_5vw27")
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverOverlay/CenterContainer/Panel"]
+layout_mode = 2
+offset_left = 31.0
+offset_top = 106.0
+offset_right = 165.0
+offset_bottom = 136.0
 focus_neighbor_right = NodePath("../MainMenuButton")
 focus_neighbor_bottom = NodePath("../MainMenuButton")
 theme = SubResource("Theme_lquwl")
 theme_override_styles/normal = SubResource("StyleBoxFlat_lquwl")
 text = "Reset"
 
-[node name="MainMenuButton" type="Button" parent="GameOverOverlay"]
-offset_left = 503.0
-offset_top = 323.0
-offset_right = 752.0
-offset_bottom = 359.0
+[node name="MainMenuButton" type="Button" parent="GameOverOverlay/CenterContainer/Panel"]
+layout_mode = 2
+offset_left = 195.0
+offset_top = 106.0
+offset_right = 433.0
+offset_bottom = 136.0
 focus_neighbor_left = NodePath("../RestartButton")
 focus_neighbor_top = NodePath("../RestartButton")
 theme = SubResource("Theme_lquwl")
 theme_override_styles/normal = SubResource("StyleBoxFlat_lquwl")
 text = "Main Menu"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverOverlay"]
-offset_left = 340.0
-offset_top = 247.0
-offset_right = 757.0
-offset_bottom = 290.0
-
-[node name="GameOver" type="Label" parent="GameOverOverlay/VBoxContainer"]
-layout_mode = 2
-text = "GAME OVER"
-label_settings = SubResource("LabelSettings_5vw27")
-horizontal_alignment = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="GameOverOverlay"]
 visible = false
