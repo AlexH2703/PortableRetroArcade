@@ -49,8 +49,10 @@ namespace PortableArcadeUI {
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::PictureBox^ pictureBoxPac;
+	private: System::Windows::Forms::PictureBox^ pictureSpaceInvaders;
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Button^ buttonPac;
+	private: System::Windows::Forms::Button^ buttonSpace;
 
 
 
@@ -61,7 +63,7 @@ namespace PortableArcadeUI {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -77,6 +79,8 @@ namespace PortableArcadeUI {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->pictureBoxPac = (gcnew System::Windows::Forms::PictureBox());
 			this->buttonPac = (gcnew System::Windows::Forms::Button());
+			this->pictureSpaceInvaders = (gcnew System::Windows::Forms::PictureBox());
+			this->buttonSpace = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 
@@ -99,13 +103,13 @@ namespace PortableArcadeUI {
 			// 
 			this->label4->Font = (gcnew System::Drawing::Font(L"Press Start 2P", screenWidth / 70, System::Drawing::FontStyle::Bold));
 			int label4Width = TextRenderer::MeasureText(L"Press Esc to Exit", this->label4->Font).Width;
-			this->label4->Location = System::Drawing::Point((screenWidth - label4Width) / 2, screenHeight /1.2);
+			this->label4->Location = System::Drawing::Point((screenWidth - label4Width) / 2, screenHeight / 1.2);
 			this->label4->Text = L"Press Esc to Exit";
 			this->label4->AutoSize = true;
 			this->label4->BackColor = System::Drawing::Color::Transparent;
 			this->label4->ForeColor = System::Drawing::Color::White;
 			// 
-			// pictureBox1
+			// Tetris
 			// 
 			this->pictureBox1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->pictureBox1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
@@ -118,13 +122,14 @@ namespace PortableArcadeUI {
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->Click += gcnew System::EventHandler(this, &GameLibrary::pictureBox1_Click);
 			// 
-			// button1
+			// TetrisButton
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Press Start 2P", screenWidth / 80, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button1->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 4.3, Screen::PrimaryScreen->Bounds.Height / 4.3);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 29);
+			this->button1->AutoSize = true;
+			this->button1->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->button1->TabIndex = 4;
 			this->button1->Text = L"Tetris";
 			this->button1->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
@@ -151,13 +156,47 @@ namespace PortableArcadeUI {
 				static_cast<System::Byte>(0)));
 			this->buttonPac->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 2.3, Screen::PrimaryScreen->Bounds.Height / 4.3);
 			this->buttonPac->Name = L"buttonPac";
-			this->buttonPac->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 8.2, Screen::PrimaryScreen->Bounds.Height / 29);
+			this->buttonPac->AutoSize = true;
+			this->buttonPac->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->buttonPac->TabIndex = 4;
 			this->buttonPac->Text = L"Pacman";
 			this->buttonPac->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
 			this->buttonPac->UseVisualStyleBackColor = true;
 			this->buttonPac->Click += gcnew System::EventHandler(this, &GameLibrary::buttonPac_Click);
 			this->buttonPac->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GameLibrary::buttonPac_KeyDown);
+
+			//
+			// SpaceInvaders
+			// 
+			this->pictureSpaceInvaders = (gcnew System::Windows::Forms::PictureBox());
+			this->pictureSpaceInvaders->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
+			this->pictureSpaceInvaders->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->pictureSpaceInvaders->ImageLocation = L"";
+			this->pictureSpaceInvaders->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 1.6, Screen::PrimaryScreen->Bounds.Height / 3.6); // Adjusted location
+			this->pictureSpaceInvaders->Name = L"pictureBox2";
+			this->pictureSpaceInvaders->Size = System::Drawing::Size(Screen::PrimaryScreen->Bounds.Width / 5.5, Screen::PrimaryScreen->Bounds.Height / 4.5);
+			this->pictureSpaceInvaders->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureSpaceInvaders->TabIndex = 2;
+			this->pictureSpaceInvaders->TabStop = false;
+			this->pictureSpaceInvaders->Click += gcnew System::EventHandler(this, &GameLibrary::spaceInvaders_Click);
+			// 
+			// buttonSpaceInvaders
+			// 
+			this->buttonSpace = (gcnew System::Windows::Forms::Button());
+			this->buttonSpace->Font = (gcnew System::Drawing::Font(L"Press Start 2P", screenWidth / 80, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->buttonSpace->Location = System::Drawing::Point(Screen::PrimaryScreen->Bounds.Width / 1.7, Screen::PrimaryScreen->Bounds.Height / 4.3); // Adjusted location
+			this->buttonSpace->Name = L"buttonSpaceInvaders";
+			this->buttonSpace->AutoSize = true;
+			this->buttonSpace->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+
+			this->buttonSpace->TabIndex = 4;
+			this->buttonSpace->Text = L"Space Invaders";
+			this->buttonSpace->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
+			this->buttonSpace->UseVisualStyleBackColor = true;
+			this->buttonSpace->Click += gcnew System::EventHandler(this, &GameLibrary::buttonSpaceInvaders_Click);
+			this->buttonSpace->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GameLibrary::buttonSpaceInvaders_KeyDown);
+
 			// 
 			// GameLibrary
 			// 
@@ -174,6 +213,8 @@ namespace PortableArcadeUI {
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->pictureBoxPac);
+			this->Controls->Add(this->pictureSpaceInvaders);
+			this->Controls->Add(this->buttonSpace);
 			this->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->Font = (gcnew System::Drawing::Font(L"Press Start 2P", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
@@ -190,105 +231,148 @@ namespace PortableArcadeUI {
 
 		}
 #pragma endregion
-private: System::Void GameLibrary_Load(System::Object^ sender, System::EventArgs^ e) {
-	LoadPacmanImage();
-	LoadTetrisImage(); // Call the method to load the image when the form is loaded
-}
-
-private: System::Void GameLibrary_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-	if (e->KeyCode == Keys::Escape) // Check if Escape key was pressed
-	{
-		this->Close();
+	private: System::Void GameLibrary_Load(System::Object^ sender, System::EventArgs^ e) {
+		LoadPacmanImage();
+		LoadTetrisImage(); // Call the method to load the image when the form is loaded
+		LoadSpaceInvadersImage();
 	}
-}
 
-private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
-	LaunchTetris();
-}
-private: System::Void pac_Click(System::Object^ sender, System::EventArgs^ e) {
-	LaunchPacman();
-}
-private: System::Void label5_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-	LaunchTetris();
-}
-private: System::Void buttonPac_Click(System::Object^ sender, System::EventArgs^ e) {
-	LaunchPacman();
-}
-private: System::Void buttonPac_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-   if (e->KeyCode == Keys::Escape) {
-	   this->Close(); // Close the current form
-   }
-   else if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Left || e->KeyCode == Keys::Up || e->KeyCode == Keys::Down) {
-	   LaunchPacman();
-   }
-}
-private: System::Void button1_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-	if (e->KeyCode == Keys::Escape) {
-		this->Close(); // Close the current form
+	private: System::Void GameLibrary_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		if (e->KeyCode == Keys::Escape) // Check if Escape key was pressed
+		{
+			this->Close();
+		}
 	}
-	else if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Left || e->KeyCode == Keys::Up || e->KeyCode == Keys::Down) {
+
+	private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 		LaunchTetris();
 	}
-}
-void LoadTetrisImage() {
-	try {
-		// Get the resource manager for the current form's resources
-		System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GameLibrary::typeid));
-			// Load the embedded image as a bitmap resource
-		System::Drawing::Image^ image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Tetris.png")));
-			// Set the PictureBox's Image property to the embedded image
-		if (image == nullptr) {
-			throw gcnew Exception("Image resource could not be loaded.");
+	private: System::Void pac_Click(System::Object^ sender, System::EventArgs^ e) {
+		LaunchPacman();
+	}
+	private: System::Void spaceInvaders_Click(System::Object^ sender, System::EventArgs^ e) {
+		LaunchSpaceInvaders();
+	}
+	private: System::Void label5_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		LaunchTetris();
+	}
+	private: System::Void buttonPac_Click(System::Object^ sender, System::EventArgs^ e) {
+		LaunchPacman();
+	}
+	private: System::Void buttonSpaceInvaders_Click(System::Object^ sender, System::EventArgs^ e) {
+		LaunchSpaceInvaders();
+	}
+	private: System::Void buttonPac_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		if (e->KeyCode == Keys::Escape) {
+			this->Close(); // Close the current form
 		}
-		this->pictureBox1->Image = image;
-	}
-	catch (Exception^ ex) {
-		MessageBox::Show("Error loading image: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-	}
-}
-void LoadPacmanImage() {
-	try {
-		// Get the resource manager for the current form's resources
-		System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GameLibrary::typeid));
-		// Load the embedded image as a bitmap resource
-		System::Drawing::Image^ image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pacman.png")));
-		// Set the PictureBox's Image property to the embedded image
-		if (image == nullptr) {
-			throw gcnew Exception("Pacman Image resource could not be loaded.");
+		else if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Left || e->KeyCode == Keys::Up || e->KeyCode == Keys::Down) {
+			LaunchPacman();
 		}
-		this->pictureBoxPac->Image = image;
 	}
-	catch (Exception^ ex) {
-		MessageBox::Show("Error loading image: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	private: System::Void button1_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		if (e->KeyCode == Keys::Escape) {
+			this->Close(); // Close the current form
+		}
+		else if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Left || e->KeyCode == Keys::Up || e->KeyCode == Keys::Down) {
+			LaunchTetris();
+		}
 	}
-}
-private: System::Void LaunchTetris() {
-	try
-	{
-		String^ exePath = Path::Combine(Application::StartupPath, "SD_Tetris.exe");
+	private: System::Void buttonSpaceInvaders_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		if (e->KeyCode == Keys::Escape) {
+			this->Close(); // Close the current form
+		}
+		else if (e->KeyCode == Keys::Right || e->KeyCode == Keys::Left || e->KeyCode == Keys::Up || e->KeyCode == Keys::Down) {
+			LaunchSpaceInvaders();
+		}
+	}
+		   void LoadTetrisImage() {
+			   try {
+				   // Get the resource manager for the current form's resources
+				   System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GameLibrary::typeid));
+				   // Load the embedded image as a bitmap resource
+				   System::Drawing::Image^ image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Tetris.png")));
+				   // Set the PictureBox's Image property to the embedded image
+				   if (image == nullptr) {
+					   throw gcnew Exception("Image resource could not be loaded.");
+				   }
+				   this->pictureBox1->Image = image;
+			   }
+			   catch (Exception^ ex) {
+				   MessageBox::Show("Error loading image: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			   }
+		   }
+		   void LoadPacmanImage() {
+			   try {
+				   System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GameLibrary::typeid));
+				   System::Drawing::Image^ image = Image::FromFile("Resources/pacman.png");
+
+
+				   // Set the PictureBox's Image property to the embedded image
+				   if (image == nullptr) {
+					   throw gcnew Exception("Pacman Image resource could not be loaded.");
+				   }
+				   this->pictureBoxPac->Image = image;
+			   }
+			   catch (Exception^ ex) {
+				   MessageBox::Show("Error loading image: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			   }
+		   }
+		   void LoadSpaceInvadersImage() {
+			   try {
+				   // Get the resource manager for the current form's resources
+				   System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(GameLibrary::typeid));
+				   // Load the embedded image as a bitmap resource
+				   System::Drawing::Image^ image = Image::FromFile("Resources/SpaceInvaders.png");
+				   // Set the PictureBox's Image property to the embedded image
+				   if (image == nullptr) {
+					   throw gcnew Exception("Space Invaders Image resource could not be loaded.");
+				   }
+				   this->pictureSpaceInvaders->Image = image;
+			   }
+			   catch (Exception^ ex) {
+				   MessageBox::Show("Error loading image: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			   }
+		   }
+	private: System::Void LaunchTetris() {
+		try
+		{
+			String^ exePath = Path::Combine(Application::StartupPath, "SD_Tetris.exe");
 			System::Diagnostics::Process::Start(exePath); // Start the second project
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show("Failed to launch Project 2. Error: " + ex->Message,
+				"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
 	}
-	catch (Exception^ ex)
-	{
-		MessageBox::Show("Failed to launch Project 2. Error: " + ex->Message,
-			"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	private: System::Void LaunchPacman() {
+		try
+		{
+			String^ exePath = Path::Combine(Application::StartupPath, "PacQt/x64/Release/PacQt.exe");
+			System::Diagnostics::Process::Start(exePath); // Start the second project
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show("Failed to launch Project Pacman. Error: " + ex->Message,
+				"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
 	}
-}
-private: System::Void LaunchPacman() {
-	try
-	{
-		String^ exePath = Path::Combine(Application::StartupPath, "PacQt/x64/Release/PacQt.exe");
-		System::Diagnostics::Process::Start(exePath); // Start the second project
+	private: System::Void LaunchSpaceInvaders() {
+		try
+		{
+			String^ exePath = Path::Combine(Application::StartupPath, "SpaceInvaders.exe");
+			System::Diagnostics::Process::Start(exePath); // Start the Space Invaders game
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show("Failed to launch Space Invaders. Error: " + ex->Message,
+				"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
 	}
-	catch (Exception^ ex)
-	{
-		MessageBox::Show("Failed to launch Project Pacman. Error: " + ex->Message,
-			"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-	}
-}
-};
+	};
 }
