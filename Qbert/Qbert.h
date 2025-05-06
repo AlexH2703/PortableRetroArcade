@@ -10,6 +10,9 @@ class Qbert : public QWidget {
 public:
     Qbert(QWidget* parent = nullptr);
     void setScale(int width, int height);
+    QRect collisionRect();
+    void setHorizonVelo(double d) { horizontalVelo = d; };
+    double getHorizonVelo() { return horizontalVelo; };
 
 protected:
     void paintEvent(QPaintEvent* event) override;
@@ -17,6 +20,7 @@ protected:
 private:
     QPixmap qbertImage;
     QPixmap scaledQbertImage;
+    double horizontalVelo;
 };
 
 #endif // QBERT_H

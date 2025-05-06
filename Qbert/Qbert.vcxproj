@@ -92,11 +92,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coily.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="RedBall.cpp" />
     <QtRcc Include="Qbert.qrc" />
     <QtUic Include="Qbert.ui" />
     <QtMoc Include="Qbert.h" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CubeWidget.cpp" />
+    <ClCompile Include="Disc.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="main.cpp" />
@@ -109,6 +113,18 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GameController.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Disc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="RedBall.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Enemy.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Coily.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

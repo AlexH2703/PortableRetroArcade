@@ -46,6 +46,18 @@
     <ClCompile Include="GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Disc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Coily.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="CubeWidget.h">
@@ -58,6 +70,18 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Qbert.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Disc.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="RedBall.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Coily.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
