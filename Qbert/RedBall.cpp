@@ -2,7 +2,7 @@
 
 RedBall::RedBall(QWidget* parent)
     : Enemy(parent), horizontalVelo(0.0) {
-    redBallImage.load(":/Qbert/redBall.png"); // Load the red ball image
+    redBallImage.load(":/redBall.png"); // Load the red ball image
 }
 
 void RedBall::setScale(int width, int height) {

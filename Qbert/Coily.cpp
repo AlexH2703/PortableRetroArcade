@@ -3,7 +3,7 @@
 
 Coily::Coily(QWidget* parent)
     : Enemy(parent),
-    coilyImage(":/Qbert/coilyBall.png"), // Load the Coily sprite map
+    coilyImage(":/coilyBall.png"), // Load the Coily sprite map
     horizontalVelo(0.0) {
     setAttribute(Qt::WA_TransparentForMouseEvents);
 }
@@ -34,7 +34,7 @@ double Coily::getHorizonVelo() const {
 void Coily::swapPixmap() {
     if (!isCoilyForm) {
         // Switch to coily.png (snake form)
-        this->coilyImage.load(":/Qbert/coily.png");
+        this->coilyImage.load(":/coily.png");
         isCoilyForm = true; // Update the flag
 
         // Determine the target height

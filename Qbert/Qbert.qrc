@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>Qbert/coily.png</file>
-        <file>Qbert/coilyBall.png</file>
-        <file>Qbert/disk.png</file>
-        <file>Qbert/greenBall.png</file>
-        <file>Qbert/qbert.png</file>
-        <file>Qbert/redBall.png</file>
         <file>PressStart2P-Regular.ttf</file>
+        <file>coily.png</file>
+        <file>coilyBall.png</file>
+        <file>disk.png</file>
+        <file>greenBall.png</file>
+        <file>qbert.png</file>
+        <file>redBall.png</file>
     </qresource>
 </RCC>

@@ -5,8 +5,8 @@
 #include <QApplication>
 
 Disc::Disc(QWidget* parent, int rw, const QString& sid) : QWidget(parent) {
-    if (discImage.load(":/Qbert/disk.png")) {
-        discImage.load(":/Qbert/disk.png");
+    if (discImage.load(":/disk.png")) {
+        discImage.load(":/disk.png");
     }
     else {
         qDebug() << "Failed to load Disc image.";

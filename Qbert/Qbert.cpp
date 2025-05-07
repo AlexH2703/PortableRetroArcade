@@ -5,8 +5,8 @@
 #include <QApplication>
 
 Qbert::Qbert(QWidget* parent) : QWidget(parent) {
-    if (qbertImage.load(":/Qbert/qbert.png")) {
-        qbertImage.load(":/Qbert/qbert.png");
+    if (qbertImage.load(":/qbert.png")) {
+        qbertImage.load(":/qbert.png");
 	}
     else {
         qDebug() << "Failed to load Qbert image.";

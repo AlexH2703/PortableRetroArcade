@@ -7,6 +7,7 @@
 #include <QFontDatabase>
 #include <QQueue>
 #include <QPointer>
+#include <QInputDialog>
 
 // Define the spawn pattern for each round
 struct SpawnPattern {
@@ -31,6 +32,7 @@ GameController::GameController(QWidget* parent)
     controlsLabel(new QLabel(this)),
 	gameInfoLabel(new QLabel(this)),
 	gameOverLabel(new QLabel(this)),
+	highScoreLabel(new QLabel(this)),
 	currentCube(nullptr)
 {
     ui.setupUi(this);
@@ -88,29 +90,36 @@ GameController::GameController(QWidget* parent)
 		{18, {{1, "left"}, {5, "left"}, {6, "left"}, {2, "right"}, {4, "right"}, {5, "right"}}},
 		{19, {{3, "left"}, {5, "left"}, {3, "right"}, {4, "right"}, {7, "right"}}}
     };
-
-    //Add the initial discs
     addDiscs(1);
+    
+    initLabels();
 
+	dbHelper::connectDatabase();
+    displayHighScores();
+}
+
+GameController::~GameController() {}
+
+void GameController::initLabels() {
     // Load the custom font
     int fontId = QFontDatabase::addApplicationFont(":PressStart2P-Regular.ttf");
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
-	int pauseFont = height()/30;
-	int controlFont = height()/40;
+    int pauseFont = height() / 30;
+    int controlFont = height() / 40;
     int gameInfoFont = height() / 25;
     int gameOverFont = height() / 20;
 
     // Set up the "Paused" label
     pausedLabel->setText("  Press R to start/resume");
     pausedLabel->setAlignment(Qt::AlignCenter);
-    pausedLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily,QString::number(pauseFont)));
+    pausedLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(pauseFont)));
     pausedLabel->setGeometry(0, 0, width(), height());
     pausedLabel->show();
     pausedLabel->raise();
 
     // Set up the "Controls" label
     controlsLabel->setText("Controls:\n"
-		"ESC - Exit\n"
+        "ESC - Exit\n"
         "R - Start/Resume\n"
         "P - Pause\n"
         "J - Up Left\n"
@@ -118,26 +127,38 @@ GameController::GameController(QWidget* parent)
         "M - Down Left\n"
         ", - Down Right");
     controlsLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    controlsLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily,QString::number(controlFont)));
-    controlsLabel->setGeometry(width()/1.35, height()/16, width()/4, height()/4.5); // Position on the right side
+    controlsLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(controlFont)));
+    controlsLabel->setGeometry(width() / 1.35, height() /75, width() / 4, height() / 4.5); // Position on the right side
     controlsLabel->show();
 
     // Set up the "Score" label
     gameInfoLabel->setText(QString("Score: \n%1\nLevel: \n%2\nLives: \n%3").arg(score).arg(level).arg(lives));
     gameInfoLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    gameInfoLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily,QString::number(gameInfoFont)));
+    gameInfoLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(gameInfoFont)));
     gameInfoLabel->setGeometry(width() / 50, height() / 16, width() / 6, height() / 4); // Position on the left side
     gameInfoLabel->show();
+
+    // Set up the "Goal Color" label
+    QLabel* goalColorLabel = new QLabel(this);
+    goalColorLabel->setText("Goal \nColor:");
+    goalColorLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    goalColorLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(gameInfoFont)));
+    goalColorLabel->setGeometry(width() / 50, height() / 2.5, width() / 6, height() / 10); // Position below the "Lives" label
+    goalColorLabel->show();
+
+    // Set up the cube to display the goal color
+    Cube* goalColorCube = new Cube(this, this->width() / 16, this->width() / 19, this->width() / 53);
+    goalColorCube->setTopFaceColor(QColor(255, 255, 255)); // Set to the goal color (white)
+    goalColorCube->move(width() / 40, height() / 2); // Position below the "Goal Color" label
+    goalColorCube->show();
 
     // Set up the "Game Over" label
     gameOverLabel->setText("GAME OVER\nPress R to Restart");
     gameOverLabel->setAlignment(Qt::AlignCenter);
-    gameOverLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(gameOverFont)));
+    gameOverLabel->setStyleSheet(QString("font-family: '%1'; font-size: %2px; color: white; background-color: rgba(0, 0, 0, 128);").arg(fontFamily, QString::number(controlFont)));
     gameOverLabel->setGeometry(0, 0, width(), height());
     gameOverLabel->hide(); // Initially hidden
 }
-
-GameController::~GameController() {}
 
 void GameController::startSpawnPattern(int round) {
     if (!spawnPatterns.contains(round)) return;
@@ -487,6 +508,13 @@ void GameController::checkAndLevelUp() {
     }
     score += 750 + level / 4 * 1000 + level % 4 * 250;
 	score += discs.size() * 50; // Add score for discs
+
+    // Check if Qbert qualifies for an extra life
+    while (score >= nextExtraLife) {
+        lives++; // Grant an extra life
+        nextExtraLife += 14000; // Update the threshold for the next extra life
+    }
+
     // All cubes are white, level up
     level++;
     resetQbert();
@@ -689,6 +717,13 @@ void GameController::animateQbertAndDiscToTop(Disc* disc) {
 }
 
 void GameController::handleGameOver() {
+    // Check if the player's score qualifies as a high score
+    if (isHighScore(score)) {
+        QString initials = promptForHighScoreName();
+        dbHelper::addHighScore(initials, score);
+    }
+	displayHighScores();
+
     // Reset game state
     score = 0;
     level = 1;
@@ -705,8 +740,8 @@ void GameController::handleGameOver() {
     if (cubeWidget) {
         QVector<Cube*> cubes = cubeWidget->getCubes();
         for (Cube* cube : cubes) {
-			cube->resetState();
-            cube->setTopFaceColor(QColor(255, 0, 0)); 
+            cube->resetState();
+            cube->setTopFaceColor(QColor(255, 0, 0));
         }
     }
 
@@ -730,7 +765,7 @@ void GameController::handleGameOver() {
     }
 
     addDiscs(1);
-	resetQbert();
+    resetQbert();
 }
 
 void GameController::spawnRedBall() {
@@ -1189,4 +1224,81 @@ void GameController::resetAfterCoilyCatch() {
 
     // Update the game info label
     updateGameInfoLabel();
+}
+
+void GameController::displayHighScores() {
+    // Retrieve the top 5 high scores
+    QList<QPair<QString, int>> highScores = dbHelper::getTopHighScores(5);
+
+    // Create a string to display the high scores
+    QString highScoresText = "High Scores:\n";
+    for (int i = 0; i < highScores.size(); ++i) {
+        highScoresText += QString("%1. %2 - %3\n")
+            .arg(i + 1)
+            .arg(highScores[i].first)
+            .arg(highScores[i].second);
+    }
+
+    // Create a QLabel to display the high scores
+    highScoreLabel->setText(highScoresText);
+    highScoreLabel->setFont(QFont("Press Start 2P", this->height() /40, QFont::Bold));
+    highScoreLabel->setStyleSheet("color: white; background-color: rgba(0, 0, 0, 0.5);");
+    highScoreLabel->setAlignment(Qt::AlignCenter);
+    highScoreLabel->setFixedSize(this->width() * 0.245, this->height() * 0.25);
+    highScoreLabel->move(this->width() * 0.74, this->height() * 0.25);
+    highScoreLabel->show();
+}
+
+bool GameController::isHighScore(int score) {
+    // Retrieve the top 5 high scores
+    QList<QPair<QString, int>> highScores = dbHelper::getTopHighScores(5);
+
+    // Check if the new score is higher than the lowest score in the list
+    return highScores.size() < 5 || score > highScores.last().second;
+}
+
+QString GameController::promptForHighScoreName() {
+    bool ok;
+    QInputDialog inputDialog(this);
+    inputDialog.setWindowTitle(tr("New High Score!"));
+    inputDialog.setLabelText(tr("Enter your initials:"));
+    inputDialog.setTextValue("");
+
+    // Custom StyleSheet
+    QString inputDialogStyle = R"(
+        QDialog {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        QLabel {
+            color: white;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+        QLineEdit {
+            background-color: white;
+            color: black;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+        QPushButton {
+            background-color: white;
+            color: black;
+            font-family: 'Press Start 2P';
+            font-size: 30px;
+        }
+    )";
+    inputDialog.setStyleSheet(inputDialogStyle);
+
+    // Set custom font
+    QFont font("Press Start 2P", this->height() * 0.1, QFont::Bold);
+    inputDialog.setFont(font);
+
+    if (inputDialog.exec() == QDialog::Accepted) {
+        QString name = inputDialog.textValue();
+        if (!name.isEmpty()) {
+            return name.left(3).toUpper();
+        }
+    }
+    return promptForHighScoreName();
 }

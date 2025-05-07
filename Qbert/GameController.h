@@ -9,6 +9,7 @@
 #include <Disc.h>  
 #include "RedBall.h"  
 #include <Coily.h>  
+#include "dbHelper.h"
 
 class GameController : public QMainWindow  
 {  
@@ -52,6 +53,11 @@ private:
    QString calculateShortestDirection(const QPoint& coilyPos, const QPoint& qbertPos);  
    void moveCoily(Coily* coily, const QString& direction);  
    void resetAfterCoilyCatch();
+   void initLabels();
+   void displayHighScores();
+   bool isHighScore(int score);
+   QString promptForHighScoreName();
+
 
    // UI and game components  
    Ui::QbertClass ui;  
@@ -64,6 +70,7 @@ private:
    QLabel* controlsLabel;  
    QLabel* gameInfoLabel;  
    QLabel* gameOverLabel;  
+   QLabel* highScoreLabel;
    QVector<Disc*> discs;  
    QMap<int, QVector<QPair<int, QString>>> discPlacements;  
    QVector<Enemy*> enemies;  
@@ -81,4 +88,5 @@ private:
    int score = 0;  
    Cube* currentCube;  
    bool paused = false;
+   int nextExtraLife = 8000;
 };
